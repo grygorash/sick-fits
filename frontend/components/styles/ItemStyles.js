@@ -27,6 +27,14 @@ const Item = styled.div`
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-gap: 1px;
     background: ${props => props.theme.lightgrey};
+    a,button{
+	    cursor: pointer;
+	    transition: all .3s;
+	    &:hover{
+		    background: ${props => props.theme.red};
+		    color: ${props => props.theme.lightgrey};
+	    }
+    }
     & > * {
       background: white;
       border: 0;

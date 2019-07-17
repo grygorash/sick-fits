@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -437,7 +437,7 @@ function (_Component) {
             lineNumber: 121
           },
           __self: this
-        }, "Submit")));
+        }, "Creat", loading ? 'ing' : 'e', " Item")));
       });
     }
   }]);
@@ -575,17 +575,17 @@ var _jsxFileName = "C:\\sick-fits\\frontend\\pages\\sell.js";
 
 
 
-var Sell = function Sell(props) {
+var Sell = function Sell() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 5
+      lineNumber: 4
     },
     __self: this
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CreateItem__WEBPACK_IMPORTED_MODULE_1__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 6
+      lineNumber: 5
     },
     __self: this
   }));
@@ -595,7 +595,7 @@ var Sell = function Sell(props) {
 
 /***/ }),
 
-/***/ 5:
+/***/ 3:
 /*!*****************************!*\
   !*** multi ./pages/sell.js ***!
   \*****************************/
