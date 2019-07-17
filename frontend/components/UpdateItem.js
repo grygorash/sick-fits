@@ -8,7 +8,7 @@ import Error from './ErrorMessage';
 
 const SINGLE_ITEM_QUERY = gql`
     query SINGLE_ITEM_QUERY($id: ID){
-        getItem(where: {id: $id}){
+        item(where: {id: $id}){
             id
             title
             description
@@ -67,7 +67,7 @@ class UpdateItem extends Component {
 			<Query query={SINGLE_ITEM_QUERY} variables={{ id: this.props.id }}>
 				{({ data, loading }) => {
 					return loading ? <p>Loading...</p> :
-						!data.getItem ? <p>No Item found for ID: {this.props.id}</p> : (
+						!data.item ? <p>No Item found for ID: {this.props.id}</p> : (
 							<Mutation mutation={UPDATE_ITEM_MUTATION} variables={this.state}>
 								{(updateItem, { loading, error }) => (
 									<Form noValidate onSubmit={e => handleFormSubmit(e, updateItem)}>
@@ -79,7 +79,7 @@ class UpdateItem extends Component {
 												<input
 													type="text"
 													id="title"
-													defaultValue={data.getItem.title}
+													defaultValue={data.item.title}
 													placeholder="Title"
 													onChange={handleInputChange}
 													required
@@ -90,7 +90,7 @@ class UpdateItem extends Component {
 												<input
 													type="number"
 													id="price"
-													defaultValue={data.getItem.price}
+													defaultValue={data.item.price}
 													placeholder="Price"
 													onChange={handleInputChange}
 													required
@@ -100,7 +100,7 @@ class UpdateItem extends Component {
 												Description
 												<textarea
 													id="description"
-													defaultValue={data.getItem.description}
+													defaultValue={data.item.description}
 													placeholder="Description"
 													onChange={handleInputChange}
 													required

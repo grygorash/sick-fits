@@ -18,7 +18,7 @@ const DeleteItem = props => {
 		// read the cache for the items we want
 		const data = cache.readQuery({ query: ALL_ITEMS_QUERY });
 		// filter the deleted item out of the page
-		data.getItems = data.getItems.filter(item => item.id !== payload.data.deleteItem.id);
+		data.items = data.items.filter(item => item.id !== payload.data.deleteItem.id);
 		// put the items back
 		cache.writeQuery({ query: ALL_ITEMS_QUERY, data });
 	};
