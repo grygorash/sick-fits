@@ -5,6 +5,8 @@ const { promisify } = require('util');
 
 const validateSignin = require('../validation/validateSignin');
 const validateSignup = require('../validation/validateSignup');
+const validateRequestReset = require('../validation/validateRequestReset');
+const validateResetPassword = require('../validation/validateResetPassword');
 const { transport, makeANiceEmail } = require('../mail');
 
 const Mutations = {
@@ -101,6 +103,9 @@ const Mutations = {
 		return { message: 'Goodbye!' };
 	},
 	async requestReset(parent, { email }, ctx, info) {
+		// check basic validation
+		validateRequestReset({ email });
+
 		// check if this is a real user
 		const user = await ctx.db.query.user({ where: { email } });
 		if (!user) {
@@ -125,10 +130,12 @@ const Mutations = {
 		return { message: 'Thanks' };
 	},
 	async resetPassword(parent, args, ctx, info) {
-		// check if the passwords match
-		if (args.password !== args.confirmPassword) {
-			throw new Error('Your password dont match');
-		}
+		// check basic validation
+		validateResetPassword({
+			password: args.password,
+			confirmPassword: args.confirmPassword
+		});
+
 		// check if its a legit reset token
 
 		// check if its expired
