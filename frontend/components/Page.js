@@ -19,7 +19,7 @@ const StyledPage = styled.div`
 	color:${props => props.theme.black};
 `;
 
-const Inner = styled.div`
+const Inner = styled.section`
 	max-width: ${props => props.theme.maxWidth};
 	margin: 0 auto;
 	padding: 2rem;
@@ -39,6 +39,16 @@ injectGlobal`
 		font-size: 1.5rem;
 		line-height: 2;
 		font-family: Arial, sans-serif;
+		::-webkit-scrollbar {
+			  width: 8px;
+			}
+		::-webkit-scrollbar-track {
+		  background: white; 
+		}
+		::-webkit-scrollbar-thumb {
+		  background: #ff0000;
+      border-radius: 10px;
+		}
 	}
 	a{
 		text-decoration: none;

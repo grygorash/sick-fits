@@ -68,6 +68,18 @@ const Form = styled.form`
 	    width: 200px;
     }
   }
+  .message-success{
+    padding: 10px;
+    background: #b4f1b4;
+    color: #11a711;
+    border-radius: 5px;
+  }
+  .request-reset-link{
+    margin-left: 10px;
+    color: #FF0000;
+    font-weight: 500;
+    font-size: 12px;
+  }
 `;
 
 export default Form;
