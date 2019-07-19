@@ -1,0 +1,24 @@
+{
+  "name": "sick-fits",
+  "version": "1.0.0",
+  "description": "back: prisma, yoga; front: react, apollo",
+  "main": "index.js",
+  "scripts": {
+    "dev-backend": "npm run dev-backend --prefix backend",
+    "dev-frontend": "npm run dev-frontend --prefix frontend",
+    "dev": "concurrently \"npm run dev-backend\" \"npm run dev-frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grygorash/sick-fits.git"
+  },
+  "author": "grygorash",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/grygorash/sick-fits/issues"
+  },
+  "homepage": "https://github.com/grygorash/sick-fits#readme",
+  "dependencies": {
+    "concurrently": "^4.1.1"
+  }
+}
