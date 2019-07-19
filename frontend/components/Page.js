@@ -54,6 +54,9 @@ injectGlobal`
 		text-decoration: none;
 		color: ${theme.black};
 	}
+	a, button{
+			cursor:pointer;
+	}
 `;
 
 class Page extends Component {

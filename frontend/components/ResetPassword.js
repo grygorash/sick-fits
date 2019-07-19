@@ -45,7 +45,7 @@ class ResetPassword extends Component {
 		return (
 			<Mutation mutation={RESET_MUTATION}
 			          variables={{ resetToken, ...this.state }}
-			refetchQueries={[{query: CURRENT_USER_QUERY}]}>
+			          refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
 				{(resetPassword, { loading, error }) =>
 					<Form method="post" onSubmit={e => handleFormSubmit(e, resetPassword)} noValidate>
 						<h2>Reset Your Password</h2>

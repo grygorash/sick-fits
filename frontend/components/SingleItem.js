@@ -3,6 +3,8 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Head from 'next/head';
+import Link from 'next/link';
+
 import formatMoney from '../lib/formatMoney';
 
 const SingleItemStyles = styled.div`
@@ -24,6 +26,11 @@ const SingleItemStyles = styled.div`
 		.price{
 			color: ${props => props.theme.red};
 			font-size: 3rem;
+		}
+		a{
+			background: ${props => props.theme.red};
+			color: #fff;
+			padding: 10px;
 		}
 	}
 `;
@@ -57,6 +64,10 @@ class SingleItem extends Component {
 									<h2>Viewing {title}</h2>
 									<p>{description}</p>
 									<p className="price">{formatMoney(price)}</p>
+									<Link href={{
+										pathname: 'update',
+										query: { id: this.props.id }
+									}}><a>Edit Item</a></Link>
 								</div>
 							</SingleItemStyles>;
 				}}

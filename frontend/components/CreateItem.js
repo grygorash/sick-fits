@@ -5,6 +5,8 @@ import Router from 'next/router';
 
 import Form from './styles/Form';
 import Error from './ErrorMessage';
+import { PAGINATION_QUERY } from './Pagination';
+import { ALL_ITEMS_QUERY } from './Items';
 
 const CREATE_ITEM_MUTATION = gql`
     mutation CREATE_ITEM_MUTATION(
@@ -69,7 +71,9 @@ class CreateItem extends Component {
 		const { item, loadingImage } = this.state;
 
 		return (
-			<Mutation mutation={CREATE_ITEM_MUTATION} variables={item}>
+			<Mutation mutation={CREATE_ITEM_MUTATION}
+			          variables={{ ...item, price: item.price === '' ? 0 : item.price }}
+			          refetchQueries={[{ query: ALL_ITEMS_QUERY }, { query: PAGINATION_QUERY }]}>
 				{(createItem, { loading, error }) => (
 					<Form noValidate onSubmit={e => handleFormSubmit(e, createItem)}>
 						<h2>Sell an Item</h2>

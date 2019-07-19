@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Query, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -40,4 +40,5 @@ const Pagination = ({ page }) =>
 		}}
 	</Query>;
 
-export default Pagination;
+export default withApollo(Pagination);
+export { PAGINATION_QUERY };

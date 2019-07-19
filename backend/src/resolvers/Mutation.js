@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 
+const validateCreateItem = require('../validation/validateCreateItem');
+const validateUpdateItem = require('../validation/validateUpdateItem');
 const validateSignin = require('../validation/validateSignin');
 const validateSignup = require('../validation/validateSignup');
 const validateRequestReset = require('../validation/validateRequestReset');
@@ -11,11 +13,13 @@ const { transport, makeANiceEmail } = require('../mail');
 
 const Mutations = {
 	async createItem(parents, args, ctx, info) {
-		// TODO check if they are logged in
-
+		// check basic validation
+		validateCreateItem(args);
 		return await ctx.db.mutation.createItem({ data: { ...args } }, info);
 	},
 	async updateItem(parent, args, ctx, info) {
+		// check basic validation
+		validateUpdateItem(args);
 		const where = { id: args.id };
 		// first take a copy of the updates
 		const updates = { ...args };
