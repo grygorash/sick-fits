@@ -1,10 +1,12 @@
 # Sick Fits
 
 ## Install
+### :root
+`npm i`
 ### :root/backend
 `npm i`
 `npm run deploy`
-### :root/client
+### :root/frontend
 `npm i`
 
 ## Run
