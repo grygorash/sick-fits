@@ -2,9 +2,9 @@ import React from 'react';
 
 import PleaseSignin from '../components/PleaseSignin';
 
-const Account = () =>
+const Orders = () =>
 	<PleaseSignin>
-		<div>account</div>
+		<div>orders</div>
 	</PleaseSignin>;
 
-export default Account;
+export default Orders;

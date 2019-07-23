@@ -10,12 +10,27 @@ const validateSignup = require('../validation/validateSignup');
 const validateRequestReset = require('../validation/validateRequestReset');
 const validateResetPassword = require('../validation/validateResetPassword');
 const { transport, makeANiceEmail } = require('../mail');
+const { hasPermission } = require('../utils');
 
 const Mutations = {
 	async createItem(parents, args, ctx, info) {
 		// check basic validation
 		validateCreateItem(args);
-		return await ctx.db.mutation.createItem({ data: { ...args } }, info);
+
+		if (!ctx.request.userId) {
+			throw new Error('You must be logged in to do that!');
+		}
+
+		return await ctx.db.mutation.createItem({
+			data: {
+				// how to create relationship between item and user
+				user: {
+					connect: {
+						id: ctx.request.userId
+					}
+				}, ...args
+			}
+		}, info);
 	},
 	async updateItem(parent, args, ctx, info) {
 		// check basic validation
@@ -34,9 +49,12 @@ const Mutations = {
 	async deleteItem(parent, args, ctx, info) {
 		const where = { id: args.id };
 		// find the item
-		const item = await ctx.db.query.item({ where }, `{id title}`);
+		const item = await ctx.db.query.item({ where }, `{id title user{ id }}`);
 		// check if they own that item or have the permissions
-		// TODO
+
+		const ownsItem = item.user.id === ctx.request.userId;
+		const hasPermissions = ctx.request.user.permissions.some(permission => ['ADMIN', 'ITEMDELETE'].includes(permission));
+		if (!ownsItem && !hasPermissions) throw new Error('You don"t have permissions to do that');
 		// delete it
 		return ctx.db.mutation.deleteItem({ where }, info);
 	},
@@ -62,7 +80,7 @@ const Mutations = {
 				email,
 				name,
 				password: passwordHash,
-				permissions: { set: ['USER'] }
+				permissions: { set: ['USER', 'ADMIN'] }
 			}
 		}, info);
 		// create the JWT token for them
@@ -118,13 +136,13 @@ const Mutations = {
 		// set reset token and expiry on that user
 		const resetToken = (await promisify(randomBytes)(20)).toString('hex');
 		const resetExpiry = Date.now() + 3600000; // 1hour from now
-		const res = await ctx.db.mutation.updateUser({
+		await ctx.db.mutation.updateUser({
 			where: { email },
 			data: { resetToken, resetExpiry }
 		});
 		// email them that reset token
 		await transport.sendMail({
-			from: 'sbuynyj@gmail.com',
+			from: 'sick-fits@gmail.com',
 			to: user.email,
 			subject: 'Your Password Reset Token',
 			html: makeANiceEmail(`<a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here To Reset</a>`)
@@ -172,6 +190,25 @@ const Mutations = {
 
 		// return the new user
 		return updatedUser;
+	},
+	async updatePermissions(parent, args, ctx, info) {
+		// check if they are logged in
+		if (!ctx.request.userId) {
+			throw new Error('You must be logged in');
+		}
+		// query the current user
+		const currentUser = await ctx.db.query.user({
+			where: { id: ctx.request.userId }
+		}, info);
+
+		//check if they have permissions to do this
+		hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
+
+		// update the permission
+		return ctx.db.mutation.updateUser({
+			data: { permissions: { set: args.permissions } },
+			where: { id: args.userId }
+		}, info);
 	}
 };
 

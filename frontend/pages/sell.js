@@ -1,8 +1,11 @@
 import CreateItem from '../components/CreateItem';
+import PleaseSignin from '../components/PleaseSignin';
 
 const Sell = () =>
 	<section>
-		<CreateItem />
+		<PleaseSignin>
+			<CreateItem />
+		</PleaseSignin>
 	</section>;
 
 export default Sell;

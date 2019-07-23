@@ -11,14 +11,19 @@ const Table = styled.table`
   th {
     border-bottom: 1px solid ${props => props.theme.offWhite};
     border-right: 1px solid ${props => props.theme.offWhite};
-    padding: 10px 5px;
     position: relative;
+    text-align: center;
+    &:hover{
+    	  background: #d2cfcf;
+    	}
     &:last-child {
       border-right: none;
       width: 150px;
-      button {
-        width: 100%;
-      }
+    }
+    label{
+    	display: block;
+    	padding: 5px 10px; 
+    	cursor:pointer;
     }
   }
   tr {
