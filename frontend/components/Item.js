@@ -8,6 +8,7 @@ import ItemStyles from './styles/ItemStyles';
 import PriceTag from './styles/PriceTag';
 import formatMoney from '../lib/formatMoney';
 import DeleteItem from './DeleteItem';
+import AddToCart from './AddToCart';
 import { CURRENT_USER_QUERY } from './User';
 
 const Item = ({ item }) =>
@@ -34,7 +35,7 @@ const Item = ({ item }) =>
 						</Link>
 						<DeleteItem id={item.id} />
 					</>}
-					{data.me.id === item.user.id ? null : <button>Add To Card</button>}
+					{data.me.id === item.user.id ? null : <AddToCart id={item.id}/>}
 				</div>}
 		</Query>
 	</ItemStyles>;

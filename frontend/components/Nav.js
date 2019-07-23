@@ -1,10 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
+import { Mutation } from 'react-apollo';
 
 import NavStyles from './styles/NavStyles';
 import User from './User';
 import Signout from './Signout';
+import { TOGGLE_CART_MUTATION } from './Cart';
 
 const Nav = ({ router }) =>
 	<User>
@@ -21,6 +23,10 @@ const Nav = ({ router }) =>
 					<Link href="/signup"><a className={router.pathname === '/signup' ? 'active' : ''}>Sign Up</a></Link>
 					<Link href="/signin"><a className={router.pathname === '/signin' ? 'active' : ''}>Sign In</a></Link>
 				</>)}
+				<Mutation mutation={TOGGLE_CART_MUTATION}>
+					{toggleCart =>
+						<button onClick={toggleCart}>My Cart</button>}
+				</Mutation>
 			</NavStyles>
 		)}
 	</User>;
