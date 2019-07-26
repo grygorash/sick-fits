@@ -39,13 +39,13 @@ injectGlobal`
 		font-size: 1.5rem;
 		line-height: 2;
 		font-family: Arial, sans-serif;
-		::-webkit-scrollbar {
+		*::-webkit-scrollbar, ::-webkit-scrollbar {
 			  width: 8px;
 			}
-		::-webkit-scrollbar-track {
+		*::-webkit-scrollbar-track, ::-webkit-scrollbar-track {
 		  background: white; 
 		}
-		::-webkit-scrollbar-thumb {
+		*::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
 		  background: #ff0000;
       border-radius: 10px;
 		}
@@ -56,6 +56,10 @@ injectGlobal`
 	}
 	a, button{
 			cursor:pointer;
+			outline: none;
+			&:disabled{
+				opacity: .2;
+			}
 	}
 `;
 
