@@ -5,16 +5,23 @@ import { withRouter } from 'next/router';
 
 import { DELETE_ITEM_MUTATION } from '../mutations';
 import { ALL_ITEMS_QUERY, PAGINATION_QUERY } from '../queries';
+import { perPage } from '../config';
 
-const DeleteItem = (props) => {
-	const page = props.router.query.page;
+const DeleteItem = ({ router, id }) => {
+	const page = router.query.page;
+	const skip = page ? page * perPage - perPage : 0;
 
 	return <Mutation
 		mutation={DELETE_ITEM_MUTATION}
-		variables={{ id: props.id }}
-		refetchQueries={[{ query: PAGINATION_QUERY }, {
+		variables={{ id }}
+		refetchQueries={[{
+			query: PAGINATION_QUERY
+		}, {
 			query: ALL_ITEMS_QUERY,
-			variables: { first: 4, skip: page ? page * 4 - 4 : 0 }
+			variables: { first: perPage, skip }
+		}, {
+			query: ALL_ITEMS_QUERY,
+			variables: { first: perPage, skip: skip + perPage }
 		}]}>
 		{(deleteItem) => {
 			return <button onClick={() => {

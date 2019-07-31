@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import { perPage } from '../config';
 
 export const ALL_ITEMS_QUERY = gql`
-    query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}){
+    query ALL_ITEMS_QUERY($first: Int = ${perPage}, $skip: Int = 0){
         items(first: $first, skip: $skip){
             id
             title
@@ -23,10 +23,10 @@ export const SINGLE_ITEM_QUERY = gql`
             id
             title
             description
-		        largeImage
+            largeImage
             price
             user{
-              id
+                id
             }
         }
     }

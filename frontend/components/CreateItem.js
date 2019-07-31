@@ -6,6 +6,7 @@ import Form from './styles/Form';
 import Error from './ErrorMessage';
 import { CREATE_ITEM_MUTATION } from '../mutations';
 import { ALL_ITEMS_QUERY, PAGINATION_QUERY } from '../queries';
+import { perPage } from '../config';
 
 class CreateItem extends Component {
 	state = {
@@ -53,13 +54,16 @@ class CreateItem extends Component {
 		return (
 			<Query query={PAGINATION_QUERY}>
 				{({ data }) => {
-					const page = Math.ceil(data.itemsConnection.aggregate.count / 4);
+					const page = Math.ceil(data.itemsConnection.aggregate.count / perPage);
+					const skip = page ? page * perPage - perPage : 0;
 					return <Mutation mutation={CREATE_ITEM_MUTATION}
 					                 variables={{ ...item, price: item.price === '' ? 0 : item.price }}
 					                 refetchQueries={[{
 						                 query: ALL_ITEMS_QUERY,
-						                 variables: { first: 4, skip: page ? page * 4 - 4 : 0 }
-					                 }, { query: PAGINATION_QUERY }]}>
+						                 variables: { first: perPage, skip }
+					                 }, {
+						                 query: PAGINATION_QUERY
+					                 }]}>
 						{(createItem, { loading, error }) => (
 							<Form noValidate onSubmit={e => handleFormSubmit(e, createItem)}>
 								<h2>Sell an Item</h2>
