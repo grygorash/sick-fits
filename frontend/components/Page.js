@@ -63,18 +63,13 @@ injectGlobal`
 	}
 `;
 
-class Page extends Component {
-	render() {
-		return (
-			<ThemeProvider theme={theme}>
-				<StyledPage>
-					<Meta />
-					<Header />
-					<Inner>{this.props.children}</Inner>
-				</StyledPage>
-			</ThemeProvider>
-		);
-	}
-}
+const Page = ({ children }) =>
+	<ThemeProvider theme={theme}>
+		<StyledPage>
+			<Meta />
+			<Header />
+			<Inner>{children}</Inner>
+		</StyledPage>
+	</ThemeProvider>;
 
 export default Page;

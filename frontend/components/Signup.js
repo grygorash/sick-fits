@@ -1,20 +1,10 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 import Router from 'next/router';
 
 import Form from './styles/Form';
 import Error from './ErrorMessage';
-
-const SIGNUP_MUTATION = gql`
-    mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $passwordConfirm: String!){
-        signup(email: $email, name: $name, password: $password, passwordConfirm: $passwordConfirm){
-            id
-            email
-            name
-        }
-    }
-`;
+import { SIGNUP_MUTATION } from '../mutations';
 
 class Signup extends Component {
 	state = {

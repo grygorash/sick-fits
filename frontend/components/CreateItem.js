@@ -1,31 +1,11 @@
 import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import { Mutation, Query } from 'react-apollo';
 import Router from 'next/router';
 
 import Form from './styles/Form';
 import Error from './ErrorMessage';
-import { PAGINATION_QUERY } from './Pagination';
-import { ALL_ITEMS_QUERY } from './Items';
-
-const CREATE_ITEM_MUTATION = gql`
-    mutation CREATE_ITEM_MUTATION(
-        $title: String!
-        $description: String!
-        $price: Int!
-        $image: String
-        $largeImage: String){
-        createItem(
-            title: $title
-            description: $description
-            price: $price
-            image: $image
-            largeImage: $largeImage
-        ){
-            id
-        }
-    }
-`;
+import { CREATE_ITEM_MUTATION } from '../mutations';
+import { ALL_ITEMS_QUERY, PAGINATION_QUERY } from '../queries';
 
 class CreateItem extends Component {
 	state = {
@@ -71,65 +51,73 @@ class CreateItem extends Component {
 		const { item, loadingImage } = this.state;
 
 		return (
-			<Mutation mutation={CREATE_ITEM_MUTATION}
-			          variables={{ ...item, price: item.price === '' ? 0 : item.price }}
-			          refetchQueries={[{ query: ALL_ITEMS_QUERY }, { query: PAGINATION_QUERY }]}>
-				{(createItem, { loading, error }) => (
-					<Form noValidate onSubmit={e => handleFormSubmit(e, createItem)}>
-						<h2>Sell an Item</h2>
-						<Error error={error} />
-						<fieldset disabled={loading || loadingImage} aria-busy={loading || loadingImage}>
-							<label htmlFor="file">
-								Image
-								<input
-									type="file"
-									id="file"
-									placeholder="Upload an Image"
-									onChange={uploadFile}
-									required
-								/>
-							</label>
-							{item.image && <img src={item.image} alt="Upload preview" />}
-							<label htmlFor="title">
-								Title
-								<input
-									type="text"
-									id="title"
-									value={item.title}
-									placeholder="Title"
-									onChange={handleInputChange}
-									required
-								/>
-							</label>
-							<label htmlFor="price">
-								Price
-								<input
-									type="number"
-									id="price"
-									value={item.price}
-									placeholder="Price"
-									onChange={handleInputChange}
-									required
-								/>
-							</label>
-							<label htmlFor="description">
-								Description
-								<textarea
-									id="description"
-									value={item.description}
-									placeholder="Description"
-									onChange={handleInputChange}
-									required
-								/>
-							</label>
-							<button type="submit">Creat{loading ? 'ing' : 'e'} Item</button>
-						</fieldset>
-					</Form>
-				)}
-			</Mutation>
+			<Query query={PAGINATION_QUERY}>
+				{({ data }) => {
+					const page = Math.ceil(data.itemsConnection.aggregate.count / 4);
+					return <Mutation mutation={CREATE_ITEM_MUTATION}
+					                 variables={{ ...item, price: item.price === '' ? 0 : item.price }}
+					                 refetchQueries={[{
+						                 query: ALL_ITEMS_QUERY,
+						                 variables: { first: 4, skip: page ? page * 4 - 4 : 0 }
+					                 }, { query: PAGINATION_QUERY }]}>
+						{(createItem, { loading, error }) => (
+							<Form noValidate onSubmit={e => handleFormSubmit(e, createItem)}>
+								<h2>Sell an Item</h2>
+								<Error error={error} />
+								<fieldset disabled={loading || loadingImage} aria-busy={loading || loadingImage}>
+									<label htmlFor="file">
+										Image
+										<input
+											type="file"
+											id="file"
+											placeholder="Upload an Image"
+											onChange={uploadFile}
+											required
+										/>
+									</label>
+									{item.image && <img src={item.image} alt="Upload preview" />}
+									<label htmlFor="title">
+										Title
+										<input
+											type="text"
+											id="title"
+											value={item.title}
+											placeholder="Title"
+											onChange={handleInputChange}
+											required
+										/>
+									</label>
+									<label htmlFor="price">
+										Price
+										<input
+											type="number"
+											id="price"
+											value={item.price}
+											placeholder="Price"
+											onChange={handleInputChange}
+											required
+										/>
+									</label>
+									<label htmlFor="description">
+										Description
+										<textarea
+											id="description"
+											value={item.description}
+											placeholder="Description"
+											onChange={handleInputChange}
+											required
+										/>
+									</label>
+									<button type="submit">Creat{loading ? 'ing' : 'e'} Item</button>
+								</fieldset>
+							</Form>
+						)}
+					</Mutation>;
+
+				}}
+			</Query>
 		);
 	}
 }
 
 export default CreateItem;
-export { CREATE_ITEM_MUTATION };

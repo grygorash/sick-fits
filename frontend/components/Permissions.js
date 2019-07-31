@@ -1,10 +1,10 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import Error from './ErrorMessage';
 import Table from './styles/Table';
 import UserPermissions from './UserPermissions';
+import { ALL_USERS_QUERY } from '../queries';
 
 const possiblePermissions = [
 	'ADMIN',
@@ -15,18 +15,7 @@ const possiblePermissions = [
 	'PERMISSIONUPDATE'
 ];
 
-const ALL_USERS_QUERY = gql`
-    query ALL_USERS_QUERY{
-        users{
-            id
-            name
-            email
-            permissions
-        }
-    }
-`;
-
-const Permissions = props =>
+const Permissions = () =>
 	<Query query={ALL_USERS_QUERY}>
 		{({ data, error }) =>
 			<>
@@ -43,9 +32,10 @@ const Permissions = props =>
 					</thead>
 					<tbody>
 					{data.users.map(user =>
-						<UserPermissions key={user.id}
-						                 user={user}
-						                 possiblePermissions={possiblePermissions} />)}
+						<UserPermissions
+							key={user.id}
+							user={user}
+							possiblePermissions={possiblePermissions} />)}
 					</tbody>
 				</Table>
 			</>}

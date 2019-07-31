@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 import Router from 'next/router';
 import Link from 'next/link';
 
 import Form from './styles/Form';
 import Error from './ErrorMessage';
-import { CURRENT_USER_QUERY } from './User';
-
-const SIGNIN_MUTATION = gql`
-    mutation SIGNIN_MUTATION($email: String!, $password: String!){
-        signin(email: $email, password: $password){
-            id
-            email
-            name
-        }
-    }
-`;
+import { SIGNIN_MUTATION } from '../mutations';
+import { CURRENT_USER_QUERY } from '../queries';
 
 class Signin extends Component {
 	state = {
@@ -37,6 +27,7 @@ class Signin extends Component {
 	render() {
 		const { handleInputChange, handleFormSubmit } = this;
 		const { email, password } = this.state;
+
 		return (
 			<Mutation mutation={SIGNIN_MUTATION}
 			          variables={this.state}

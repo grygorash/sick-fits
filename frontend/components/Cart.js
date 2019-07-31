@@ -1,6 +1,5 @@
 import React from 'react';
 import { Query, Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import CartStyles from './styles/CartStyles';
 import CloseButton from './styles/CloseButton';
@@ -10,35 +9,24 @@ import User from './User';
 import CartItem from './CartItem';
 import calcTotalPrice from '../lib/calcTotalPrice';
 import formatMoney from '../lib/formatMoney';
-
-const LOCAL_STATE_QUERY = gql`
-    query{
-        cartOpen @client
-    }
-`;
-
-const TOGGLE_CART_MUTATION = gql`
-    mutation{
-        toggleCart @client
-    }
-`;
+import { TOGGLE_CART_MUTATION } from '../mutations';
+import { LOCAL_STATE_QUERY } from '../queries';
 
 const Cart = () =>
 	<User>
-		{({ data: { me } }) =>
-			!me ? null : <Mutation mutation={TOGGLE_CART_MUTATION}>
-				{(toggleCart) =>
+		{({ data: { me } }) => me ?
+			<Mutation mutation={TOGGLE_CART_MUTATION}>
+				{toggleCart =>
 					<Query query={LOCAL_STATE_QUERY}>
 						{({ data }) =>
 							<CartStyles open={data.cartOpen}>
 								<header>
-									<CloseButton title="close" onClick={toggleCart}>x</CloseButton>
+									<CloseButton onClick={toggleCart}>x</CloseButton>
 									<Supreme>{me.name}'s Cart</Supreme>
 									<p>You Have {me.cart.length} Item{me.cart.length > 1 ? 's' : ''} in your cart</p>
 									<ul>
 										{me.cart.map(cartItem =>
-											<CartItem key={cartItem.id} cartItem={cartItem} />
-										)}
+											<CartItem key={cartItem.id} cartItem={cartItem} />)}
 									</ul>
 									<footer>
 										<p>{formatMoney(calcTotalPrice(me.cart))}</p>
@@ -47,8 +35,8 @@ const Cart = () =>
 								</header>
 							</CartStyles>}
 					</Query>}
-			</Mutation>}
+			</Mutation>
+			: null}
 	</User>;
 
 export default Cart;
-export { LOCAL_STATE_QUERY, TOGGLE_CART_MUTATION };

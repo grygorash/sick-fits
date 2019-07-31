@@ -4,12 +4,12 @@ const { hasPermission } = require('../utils');
 
 const Query = {
 	items: forwardTo('db'),
-	// async getItems(parent, args, ctx, info) {
+	// async items(parent, args, ctx, info) {
 	// 	return await ctx.db.query.items();
 	// },
 
 	item: forwardTo('db'),
-	// async getItem(parent, args, ctx, info) {
+	// async item(parent, args, ctx, info) {
 	// 	const where = { id: args.where.id };
 	// 	return await ctx.db.query.item({ where });
 	// },

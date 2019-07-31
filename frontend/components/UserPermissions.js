@@ -1,20 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import SickButton from './styles/SickButton';
-
-const UPDATE_PERMISSIONS_MUTATION = gql`
-    mutation UPDATE_PERMISSIONS_MUTATION($permissions: [Permission], $userId: ID!){
-        updatePermissions(permissions: $permissions, userId: $userId){
-            id
-            permissions
-            name
-            email
-        }
-    }
-`;
+import { UPDATE_PERMISSIONS_MUTATION } from '../mutations';
 
 class UserPermissions extends Component {
 	static propTypes = {
@@ -30,12 +19,13 @@ class UserPermissions extends Component {
 	state = { permissions: this.props.user.permissions };
 
 	handleInputChange = ({ target }) => {
+		const permissions = this.state;
 		target.checked ?
 			this.setState({
-				permissions: [...this.state.permissions, target.value]
+				permissions: [...permissions, target.value]
 			}) :
 			this.setState({
-				permissions: this.state.permissions.filter(permission => permission !== target.value)
+				permissions: permissions.filter(permission => permission !== target.value)
 			});
 	};
 

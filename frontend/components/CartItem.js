@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import CartItemStyles from './styles/CartItemStyles';
-import formatMoney from '../lib/formatMoney';
 import RemoveFromCart from './RemoveFromCart';
+import formatMoney from '../lib/formatMoney';
 
 const CartItem = ({ cartItem }) =>
 	<CartItemStyles>

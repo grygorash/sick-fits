@@ -1,43 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Mutation, Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import Router from 'next/router';
 
 import Form from './styles/Form';
 import Error from './ErrorMessage';
-
-const SINGLE_ITEM_QUERY = gql`
-    query SINGLE_ITEM_QUERY($id: ID){
-        item(where: {id: $id}){
-            id
-            title
-            description
-            price
-        }
-    }
-`;
-
-const UPDATE_ITEM_MUTATION = gql`
-    mutation UPDATE_ITEM_MUTATION(
-        $id: ID!
-        $title: String
-        $description: String
-        $price: Int){
-        updateItem(
-            id: $id
-            title: $title
-            description: $description
-            price: $price
-        ){
-            id
-            title
-            description
-            price
-        }
-    }
-`;
+import { SINGLE_ITEM_QUERY } from '../queries';
+import { UPDATE_ITEM_MUTATION } from '../mutations';
 
 class UpdateItem extends Component {
+	static propTypes = {
+		id: PropTypes.string.isRequired
+	};
+
 	state = {};
 
 	handleInputChange = ({ target }) => {
@@ -61,13 +36,13 @@ class UpdateItem extends Component {
 
 	render() {
 		const { handleInputChange, handleFormSubmit } = this;
-		const { title, description, price } = this.state;
+		const { id } = this.props;
 
 		return (
-			<Query query={SINGLE_ITEM_QUERY} variables={{ id: this.props.id }}>
+			<Query query={SINGLE_ITEM_QUERY} variables={{ id }}>
 				{({ data, loading }) => {
 					return loading ? <p>Loading...</p> :
-						!data.item ? <p>No Item found for ID: {this.props.id}</p> : (
+						!data.item ? <p>No Item found for ID: {id}</p> : (
 							<Mutation mutation={UPDATE_ITEM_MUTATION} variables={this.state}>
 								{(updateItem, { loading, error }) => (
 									<Form noValidate onSubmit={e => handleFormSubmit(e, updateItem)}>

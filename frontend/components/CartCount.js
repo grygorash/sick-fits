@@ -1,25 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
-const Dot = styled.div`
-	min-width: 40px;
-	background: ${props => props.theme.red};
-	color: white;
-	border-radius: 50%;
-	padding: 10px;
-	line-height: 2rem;
-	margin-left: 1rem;
-	font-weight: 100;
-	font-feature-settings: 'tnum';
-	font-variant-numeric: tabular-nums;
-`;
+import Dot from './styles/Dot';
 
-const CartCount = ({ count }) => {
-	return (
-		<Dot>{count}</Dot>
-	);
-};
+const CartCount = ({ count }) => <Dot>{count}</Dot>;
 
 CartCount.propTypes = {
 	count: PropTypes.number.isRequired
