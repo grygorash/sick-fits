@@ -10,7 +10,7 @@ const validateSignup = require('../validation/validateSignup');
 const validateRequestReset = require('../validation/validateRequestReset');
 const validateResetPassword = require('../validation/validateResetPassword');
 const { transport, makeANiceEmail } = require('../mail');
-const { hasPermission } = require('../utils');
+const hasPermission = require('../utils');
 
 const Mutations = {
 	async createItem(parents, args, ctx, info) {

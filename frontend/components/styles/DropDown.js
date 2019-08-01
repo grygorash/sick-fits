@@ -12,6 +12,7 @@ const DropDownItem = styled.div`
   background: ${props => (props.highlighted ? '#f7f7f7' : 'white')};
   padding: 1rem;
   transition: all 0.2s;
+  cursor: pointer;
   ${props => (props.highlighted ? 'padding-left: 2rem;' : null)};
   display: flex;
   align-items: center;
@@ -38,6 +39,7 @@ const SearchStyles = styled.div`
     padding: 10px;
     border: 0;
     font-size: 2rem;
+    outline: none;
     &.loading {
       animation: ${glow} 0.5s ease-in-out infinite alternate;
     }

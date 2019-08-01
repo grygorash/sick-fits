@@ -21,7 +21,6 @@ class Signin extends Component {
 	handleFormSubmit = async (e, signin) => {
 		e.preventDefault();
 		await signin().then(() => Router.push('/items'));
-
 	};
 
 	render() {
