@@ -5,6 +5,10 @@ const OrderItemStyles = styled.li`
   list-style: none;
   padding: 2rem;
   border: 1px solid ${props => props.theme.offWhite};
+  transition: all .3s;
+	&:hover{
+		border-color: ${props => props.theme.red}
+	}
   h2 {
     border-bottom: 2px solid red;
     margin-top: 0;

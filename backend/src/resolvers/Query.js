@@ -4,18 +4,8 @@ const hasPermission = require('../utils');
 
 const Query = {
 	items: forwardTo('db'),
-	// async items(parent, args, ctx, info) {
-	// 	return await ctx.db.query.items();
-	// },
-
 	item: forwardTo('db'),
-	// async item(parent, args, ctx, info) {
-	// 	const where = { id: args.where.id };
-	// 	return await ctx.db.query.item({ where });
-	// },
-
 	itemsConnection: forwardTo('db'),
-
 	me(parent, args, ctx, info) {
 		// check if there is a current user ID
 		if (!ctx.request.userId) {
@@ -28,7 +18,7 @@ const Query = {
 	async users(parent, args, ctx, info) {
 		// check if they logged in
 		if (!ctx.request.userId) {
-			throw new Error('You must br logged in');
+			throw new Error('You must be logged in');
 		}
 
 		// check if the user has the permissions to query all the users
@@ -36,6 +26,29 @@ const Query = {
 
 		// if they do, query all the users
 		return ctx.db.query.users({}, info);
+	},
+	async orders(parent, args, ctx, info) {
+		const { userId } = ctx.request;
+		if (!userId) throw new Error('You are not logged in');
+		return await ctx.db.query.orders({
+			where: { user: { id: userId } }
+		}, info);
+	},
+	async order(parent, args, ctx, info) {
+		// make sure they are logged in
+		if (!ctx.request.userId) throw new Error('You are not logged in');
+
+		// query the current order
+		const order = await ctx.db.query.order({
+			where: { id: args.id }
+		}, info);
+
+		// check if they have the permissions to see this order
+		const ownsOrder = order.user.id === ctx.request.userId;
+		if (!ownsOrder) throw new Error('You cant see this');
+
+		// return order
+		return order;
 	}
 };
 

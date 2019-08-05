@@ -1,10 +1,9 @@
-import React from 'react';
-
 import PleaseSignin from '../components/PleaseSignin';
+import OrderList from '../components/OrderList';
 
 const Orders = () =>
 	<PleaseSignin>
-		<div>orders</div>
+		<OrderList />
 	</PleaseSignin>;
 
 export default Orders;

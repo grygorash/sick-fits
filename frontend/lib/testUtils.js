@@ -35,7 +35,7 @@ const fakeOrderItem = () => ({
 });
 
 const fakeOrder = () => ({
-  __typename: 'Order',
+  __typename: 'SingleOrder.js',
   id: 'ord123',
   charge: 'ch_123',
   total: 40000,
