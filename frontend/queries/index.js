@@ -10,6 +10,7 @@ export const ALL_ITEMS_QUERY = gql`
             description
             image
             largeImage
+            createdAt
             user{
                 id
             }
@@ -98,7 +99,7 @@ export const SEARCH_ITEMS_QUERY = gql`
 
 export const USER_ORDERS_QUERY = gql`
     query USER_ORDERS_QUERY{
-        orders(orderBy: createdAt_DESC){
+        orders{
             id
             total
             createdAt
