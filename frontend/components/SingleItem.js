@@ -9,37 +9,36 @@ import DeleteItem from './DeleteItem';
 import SingleItemStyles from './styles/SingleItemStyles';
 import { SINGLE_ITEM_QUERY } from '../queries';
 import formatMoney from '../lib/formatMoney';
+import ErrorPage from './ErrorPage';
 
 const SingleItem = ({ id }) =>
 	<Query query={SINGLE_ITEM_QUERY}
 	       variables={{ id }}>
-		{({ data: { item }, loading }) => {
-			const { title, description, largeImage, price, user, id } = item;
-			return !item ? <p>No Item found for ID: {id}</p> :
-				loading ? <p>Loading</p> :
-					<SingleItemStyles>
-						<Head>
-							<title>Sick Fits! {title}</title>
-						</Head>
-						<img src={largeImage} alt={title} />
-						<div className="details">
-							<h2>Viewing {title}</h2>
-							<p>{description}</p>
-							<p className="price">{formatMoney(price)}</p>
-							<User>
-								{({ data: { me } }) =>
-									me && me.id === user.id &&
-									<>
-										<Link href={{
-											pathname: 'update',
-											query: { id }
-										}}><a>Edit Item</a></Link>
-										<DeleteItem id={id} />
-									</>}
-							</User>
-						</div>
-					</SingleItemStyles>;
-		}}
+		{({ data }) =>
+			data && Object.keys(data).length !== 0 ?
+				<SingleItemStyles>
+					<Head>
+						<title>Sick Fits! {data.item.title}</title>
+					</Head>
+					<img src={data.item.largeImage} alt={data.item.title} />
+					<div className="details">
+						<h2>Viewing {data.item.title}</h2>
+						<p>{data.item.description}</p>
+						<p className="price">{formatMoney(data.item.price)}</p>
+						<User>
+							{({ data: { me } }) =>
+								me && me.id === data.item.user.id &&
+								<>
+									<Link href={{
+										pathname: 'update',
+										query: { id }
+									}}><a>Edit Item</a></Link>
+									<DeleteItem id={id} />
+								</>}
+						</User>
+					</div>
+				</SingleItemStyles> :
+				<ErrorPage status="404" text={`No item found for ID: ${id}`} />}
 	</Query>;
 
 SingleItem.propTypes = {

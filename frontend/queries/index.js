@@ -29,6 +29,7 @@ export const SINGLE_ITEM_QUERY = gql`
             createdAt
             user{
                 id
+                name
             }
         }
     }
