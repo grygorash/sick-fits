@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query, withApollo } from 'react-apollo';
 import Router from 'next/router';
 import Link from 'next/link';
 
 import Form from './styles/Form';
 import Error from './ErrorMessage';
 import { SIGNIN_MUTATION } from '../mutations';
-import { CURRENT_USER_QUERY } from '../queries';
+import { ALL_ITEMS_QUERY, CURRENT_USER_QUERY, LOCAL_STATE_QUERY } from '../queries';
 
 class Signin extends Component {
 	state = {
@@ -18,9 +18,12 @@ class Signin extends Component {
 		this.setState({ [target.id]: target.value });
 	};
 
-	handleFormSubmit = async (e, signin) => {
+	handleFormSubmit = (e, signin) => {
 		e.preventDefault();
-		await signin().then(() => Router.push('/items'));
+		signin()
+			.then(() => this.props.client.resetStore())
+			.then(() => Router.push('/items'))
+			.then(() => this.props.client.cache.writeQuery({ query: LOCAL_STATE_QUERY, data: { cartOpen: false } }));
 	};
 
 	render() {
@@ -29,8 +32,7 @@ class Signin extends Component {
 
 		return (
 			<Mutation mutation={SIGNIN_MUTATION}
-			          variables={this.state}
-			          refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+			          variables={this.state}>
 				{(signin, { loading, error }) =>
 					<Form method="post" onSubmit={e => handleFormSubmit(e, signin)} noValidate>
 						<h2>Sign Into Your Account</h2>
@@ -61,4 +63,4 @@ class Signin extends Component {
 	}
 }
 
-export default Signin;
+export default withApollo(Signin);

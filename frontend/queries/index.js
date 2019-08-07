@@ -3,7 +3,7 @@ import { perPage } from '../config';
 
 export const ALL_ITEMS_QUERY = gql`
     query ALL_ITEMS_QUERY($first: Int = ${perPage}, $skip: Int = 0){
-        items(first: $first, skip: $skip){
+        items(first: $first, skip: $skip, orderBy: createdAt_DESC){
             id
             title
             price
@@ -26,6 +26,7 @@ export const SINGLE_ITEM_QUERY = gql`
             description
             largeImage
             price
+            createdAt
             user{
                 id
             }
@@ -55,7 +56,7 @@ export const ALL_USERS_QUERY = gql`
 `;
 
 export const CURRENT_USER_QUERY = gql`
-    query {
+    query CURRENT_USER_QUERY{
         me{
             id
             email
@@ -77,7 +78,7 @@ export const CURRENT_USER_QUERY = gql`
 `;
 
 export const LOCAL_STATE_QUERY = gql`
-    query{
+    query LOCAL_STATE_QUERY{
         cartOpen @client
     }
 `;
@@ -99,7 +100,7 @@ export const SEARCH_ITEMS_QUERY = gql`
 
 export const USER_ORDERS_QUERY = gql`
     query USER_ORDERS_QUERY{
-        orders{
+        orders(orderBy: createdAt_DESC){
             id
             total
             createdAt

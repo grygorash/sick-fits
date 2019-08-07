@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation, Query, withApollo } from 'react-apollo';
 import Router from 'next/router';
 
 import Form from './styles/Form';
@@ -44,26 +44,19 @@ class CreateItem extends Component {
 		Router.push({
 			pathname: '/item',
 			query: { id: res.data.createItem.id }
-		});
+		}).then(() => this.props.client.resetStore());
 	};
 
 	render() {
 		const { uploadFile, handleInputChange, handleFormSubmit } = this;
 		const { item, loadingImage } = this.state;
-
 		return (
 			<Query query={PAGINATION_QUERY}>
 				{({ data }) => {
 					const page = Math.ceil(data.itemsConnection.aggregate.count / perPage);
 					const skip = page ? page * perPage - perPage : 0;
 					return <Mutation mutation={CREATE_ITEM_MUTATION}
-					                 variables={{ ...item, price: item.price === '' ? 0 : item.price }}
-					                 refetchQueries={[{
-						                 query: ALL_ITEMS_QUERY,
-						                 variables: { first: perPage, skip }
-					                 }, {
-						                 query: PAGINATION_QUERY
-					                 }]}>
+					                 variables={{ ...item, price: item.price === '' ? 0 : item.price }}>
 						{(createItem, { loading, error }) => (
 							<Form noValidate onSubmit={e => handleFormSubmit(e, createItem)}>
 								<h2>Sell an Item</h2>
@@ -114,14 +107,12 @@ class CreateItem extends Component {
 									</label>
 									<button type="submit">Creat{loading ? 'ing' : 'e'} Item</button>
 								</fieldset>
-							</Form>
-						)}
+							</Form>)}
 					</Mutation>;
-
 				}}
 			</Query>
 		);
 	}
 }
 
-export default CreateItem;
+export default withApollo(CreateItem);

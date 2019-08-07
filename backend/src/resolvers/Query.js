@@ -3,9 +3,32 @@ const { forwardTo } = require('prisma-binding');
 const hasPermission = require('../utils');
 
 const Query = {
-	items: forwardTo('db'),
+	// items: forwardTo('db'),
+	async items(parent, args, ctx, info) {
+		const { userId } = ctx.request;
+		const title_contains = args.where && args.where.OR[0].title_contains;
+		const description_contains = args.where && args.where.OR[0].description_contains;
+
+		return await ctx.db.query.items({
+			orderBy: args.orderBy,
+			skip: args.skip,
+			first: args.first,
+			where: {
+				user: { id_not: userId },
+				title_contains,
+				description_contains
+			}
+		}, info);
+	},
 	item: forwardTo('db'),
-	itemsConnection: forwardTo('db'),
+	// itemsConnection: forwardTo('db'),
+	async itemsConnection(parent, args, ctx, info) {
+		const { userId } = ctx.request;
+
+		return await ctx.db.query.itemsConnection({
+			where: { user: { id_not: userId } }
+		}, info);
+	},
 	me(parent, args, ctx, info) {
 		// check if there is a current user ID
 		if (!ctx.request.userId) {

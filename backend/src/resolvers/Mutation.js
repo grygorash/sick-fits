@@ -29,7 +29,9 @@ const Mutations = {
 					connect: {
 						id: ctx.request.userId
 					}
-				}, ...args
+				},
+				...args,
+				createdAt: new Date()
 			}
 		}, info);
 	},
@@ -311,7 +313,8 @@ const Mutations = {
 				total: charge.amount,
 				charge: charge.id,
 				items: { create: orderItems },
-				user: { connect: { id: userId } }
+				user: { connect: { id: userId } },
+				createdAt: new Date()
 			}
 		});
 

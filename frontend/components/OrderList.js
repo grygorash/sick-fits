@@ -7,6 +7,7 @@ import { USER_ORDERS_QUERY } from '../queries';
 import OrderListStyles from './styles/OrderListStyles';
 import OrderItemStyles from './styles/OrderItemStyles';
 import formatMoney from '../lib/formatMoney';
+import { format } from "date-fns";
 
 const OrderList = () =>
 	<Query query={USER_ORDERS_QUERY}>
@@ -26,7 +27,7 @@ const OrderList = () =>
 											<div className="order-meta">
 												<p>Items: {order.items.reduce((a, b) => a + b.quantity, 0)}</p>
 												<p>Products: {order.items.length}</p>
-												<p>Create at: {order.createdAt}</p>
+												<p>Create at: {format(new Date(order.createdAt), 'MMMM d, yyyy HH:MM')}</p>
 												<p>Total: {formatMoney(order.total)}</p>
 											</div>
 											<span className="images">
