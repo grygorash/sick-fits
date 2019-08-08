@@ -24,7 +24,8 @@ export const SINGLE_ITEM_QUERY = gql`
             id
             title
             description
-            largeImage
+		        image
+		        largeImage
             price
             createdAt
             user{

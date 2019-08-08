@@ -11,7 +11,7 @@ const UpdateItem = ({ id }) =>
 		{({ data }) =>
 			!data.item ?
 				<ErrorPage status={'404'} text={`No Item found for ID: ${id}`} /> :
-				<UpdateItemForm id={id} item={data.item} />}
+				<UpdateItemForm item={data.item} />}
 	</Query>;
 
 UpdateItem.propTypes = {

@@ -19,7 +19,8 @@ class UserPermissions extends Component {
 	state = { permissions: this.props.user.permissions };
 
 	handleInputChange = ({ target }) => {
-		const permissions = this.state;
+		const { permissions} = this.state;
+
 		target.checked ?
 			this.setState({
 				permissions: [...permissions, target.value]
@@ -33,7 +34,7 @@ class UserPermissions extends Component {
 		const { handleInputChange } = this;
 		const { permissions } = this.state;
 		const { user, possiblePermissions } = this.props;
-
+		console.log('--->this.state', this.state.permissions);
 		return (
 			<tr>
 				<td>{user.name}</td>

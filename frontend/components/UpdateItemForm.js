@@ -9,26 +9,51 @@ import { UPDATE_ITEM_MUTATION } from '../mutations';
 
 class UpdateItemForm extends Component {
 	static propTypes = {
-		id: PropTypes.string.isRequired
+		item: PropTypes.shape({
+			id: PropTypes.string.isRequired,
+			title: PropTypes.string.isRequired,
+			price: PropTypes.number.isRequired,
+			description: PropTypes.string.isRequired,
+			image: PropTypes.string.isRequired
+		})
 	};
 
 	state = {
-		title: this.props.item.title,
-		price: this.props.item.price,
-		description: this.props.item.description
+		item: {
+			id: this.props.item.id,
+			title: this.props.item.title,
+			price: this.props.item.price,
+			description: this.props.item.description,
+			image: this.props.item.image,
+			largeImage: this.props.item.largeImage
+		},
+		loadingImage: false
 	};
 
 	handleInputChange = ({ target }) => {
 		const val = target.type === 'number' ? +target.value : target.value;
-		this.setState({ [target.id]: val });
+		this.setState({ item: { ...this.state.item, [target.id]: val } });
+	};
+
+	uploadFile = async ({ target }) => {
+		this.setState({ loadingImage: true });
+		const data = new FormData();
+		data.append('file', target.files[0]);
+		data.append('upload_preset', 'sickfits');
+		const res = await fetch('https://api.cloudinary.com/v1_1/dlz9sdxba/image/upload', { method: 'POST', body: data });
+		const file = await res.json();
+		this.setState({
+			item: { ...this.state.item, image: file.secure_url, largeImage: file.eager[0].secure_url },
+			loadingImage: false
+		});
 	};
 
 	handleFormSubmit = async (e, updateItem) => {
 		e.preventDefault();
 		const res = await updateItem({
 			variables: {
-				id: this.props.id,
-				...this.state
+				id: this.state.item.id,
+				...this.state.item
 			}
 		});
 		Router.push({
@@ -38,9 +63,9 @@ class UpdateItemForm extends Component {
 	};
 
 	render() {
-		const { handleInputChange, handleFormSubmit } = this;
-		const { title, price, description } = this.state;
-
+		const { handleInputChange, handleFormSubmit, uploadFile } = this;
+		const { title, price, description, image } = this.state.item;
+		const { loadingImage } = this.state;
 		return (
 			<Mutation
 				mutation={UPDATE_ITEM_MUTATION}
@@ -49,7 +74,18 @@ class UpdateItemForm extends Component {
 					<Form noValidate onSubmit={e => handleFormSubmit(e, updateItem)}>
 						<h2>Update an Item</h2>
 						<Error error={error} />
-						<fieldset disabled={loading} aria-busy={loading}>
+						<fieldset disabled={loading || loadingImage} aria-busy={loading || loadingImage}>
+							<label htmlFor="file">
+								Image
+								<input
+									type="file"
+									id="file"
+									placeholder="Upload an Image"
+									onChange={uploadFile}
+									required
+								/>
+							</label>
+							{image && <img src={image} alt="Upload preview" />}
 							<label htmlFor="title">
 								Title
 								<input
