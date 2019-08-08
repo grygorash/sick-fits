@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Mutation, Query, withApollo } from 'react-apollo';
+import { Mutation, withApollo } from 'react-apollo';
 import Router from 'next/router';
 import Link from 'next/link';
 
 import Form from './styles/Form';
 import Error from './ErrorMessage';
 import { SIGNIN_MUTATION } from '../mutations';
-import { ALL_ITEMS_QUERY, CURRENT_USER_QUERY, LOCAL_STATE_QUERY } from '../queries';
+import { LOCAL_STATE_QUERY } from '../queries';
 
 class Signin extends Component {
 	state = {

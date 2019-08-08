@@ -7,14 +7,14 @@ import { USER_ORDERS_QUERY } from '../queries';
 import OrderListStyles from './styles/OrderListStyles';
 import OrderItemStyles from './styles/OrderItemStyles';
 import formatMoney from '../lib/formatMoney';
-import { format } from "date-fns";
+import { format } from 'date-fns';
 
 const OrderList = () =>
 	<Query query={USER_ORDERS_QUERY}>
 		{({ data: { orders }, loading, error }) =>
 			loading ? <div>Loading...</div> :
 				error ? <Error error={error} /> :
-					<div>
+					<>
 						<h2>You have {orders.length} orders</h2>
 						<OrderListStyles>
 							{orders.map(order =>
@@ -39,7 +39,7 @@ const OrderList = () =>
 								</OrderItemStyles>
 							)}
 						</OrderListStyles>
-					</div>}
+					</>}
 	</Query>;
 
 export default OrderList;

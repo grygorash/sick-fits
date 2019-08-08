@@ -5,7 +5,7 @@ import Router from 'next/router';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
 import { CREATE_ITEM_MUTATION } from '../mutations';
-import { ALL_ITEMS_QUERY, PAGINATION_QUERY } from '../queries';
+import { PAGINATION_QUERY } from '../queries';
 import { perPage } from '../config';
 
 class CreateItem extends Component {

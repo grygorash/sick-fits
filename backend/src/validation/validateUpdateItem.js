@@ -3,7 +3,6 @@ const isEmpty = require('./is-empty');
 
 module.exports = function validateUpdateItem(data) {
 	data.title = !isEmpty(data.title) ? data.title : '';
-
 	if (Validator.isEmpty(data.title)) {
 		throw new Error('Title field is required');
 	}

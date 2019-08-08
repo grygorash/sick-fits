@@ -1,8 +1,6 @@
-import Items from '../components/Items';
+import ItemList from '../components/ItemList';
 
 const Home = ({ query }) =>
-	<section>
-		<Items page={+query.page || 1} />
-	</section>;
+	<ItemList page={+query.page || 1} />;
 
 export default Home;

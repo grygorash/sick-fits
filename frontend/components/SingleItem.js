@@ -30,7 +30,7 @@ const SingleItem = ({ id }) =>
 								me && me.id === data.item.user.id &&
 								<>
 									<Link href={{
-										pathname: 'update',
+										pathname: '/update',
 										query: { id }
 									}}><a>Edit Item</a></Link>
 									<DeleteItem id={id} />

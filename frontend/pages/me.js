@@ -1,10 +1,11 @@
 import React from 'react';
 
 import PleaseSignin from '../components/PleaseSignin';
+import Account from '../components/Account';
 
-const Account = () =>
+const Me = () =>
 	<PleaseSignin>
-		<div>account</div>
+		<Account />
 	</PleaseSignin>;
 
-export default Account;
+export default Me;

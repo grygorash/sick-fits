@@ -1,22 +1,22 @@
 import React from 'react';
 import { Mutation, withApollo } from 'react-apollo';
 import Router from 'next/router';
+import NProgress from 'nprogress';
 
-import { SIGN_OUT_MUTATION } from '../mutations';
+import { SIGNOUT_MUTATION } from '../mutations';
 
-const Signout = ({ client }) => {
+const Signout = ({ client }) =>
+	<Mutation mutation={SIGNOUT_MUTATION}>
+		{signout =>
+			<button onClick={() => {
+				NProgress.start();
+				signout()
+					.then(() => Router.push('/'))
+					.then(() => client.resetStore());
+			}}>
+				Sign Out
+			</button>}
+	</Mutation>;
 
-		return <Mutation mutation={SIGN_OUT_MUTATION}>
-			{(signout =>
-				<button onClick={() => {
-					signout()
-						.then(() => client.resetStore())
-						.then(() => Router.push('/items'));
-				}}>
-					Sign Out
-				</button>)}
-		</Mutation>;
-	}
-;
 
 export default withApollo(Signout);

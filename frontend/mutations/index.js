@@ -20,8 +20,8 @@ export const SIGNIN_MUTATION = gql`
     }
 `;
 
-export const SIGN_OUT_MUTATION = gql`
-    mutation SIGN_OUT_MUTATION{
+export const SIGNOUT_MUTATION = gql`
+    mutation SIGNOUT_MUTATION{
         signout{
             message
         }

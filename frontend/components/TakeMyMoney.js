@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import Router from 'next/router';
 import NProgress from 'nprogress';
@@ -9,7 +8,6 @@ import calcTotalPrice from '../lib/calcTotalPrice';
 import { Mutation } from 'react-apollo';
 import { CREATE_ORDER_MUTATION, TOGGLE_CART_MUTATION } from '../mutations';
 import { CURRENT_USER_QUERY, USER_ORDERS_QUERY } from '../queries';
-
 
 const TakeMyMoney = props => {
 	const handleTotalItems = cart =>
