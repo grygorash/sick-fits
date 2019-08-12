@@ -5,7 +5,7 @@ const hasPermission = require('../utils');
 const Query = {
 	// items: forwardTo('db'),
 	async items(parent, args, ctx, info) {
-		const user = args.account ? { id: ctx.request.userId } : { id_not: ctx.request.userId };
+		const user = { id_not: ctx.request.userId };
 		const title_contains = args.where && args.where.OR && args.where.OR[0].title_contains;
 		const description_contains = args.where && args.where.OR && args.where.OR[0].description_contains;
 
@@ -34,6 +34,10 @@ const Query = {
 		return await ctx.db.query.user({
 			where: { id: userId }
 		}, info);
+	},
+	async user(parent, args, ctx, info) {
+		const where = { id: args.where.id };
+		return await ctx.db.query.user({ where }, info);
 	},
 	async users(parent, args, ctx, info) {
 		// check if they logged in

@@ -53,11 +53,30 @@ export const ALL_USERS_QUERY = gql`
             name
             email
             permissions
+            items{
+                id
+            }
+            cart{
+                id
+            }
+        }
+    }
+`;
+
+export const SINGLE_USER_QUERY = gql`
+    query SINGLE_USER_QUERY($id: ID!){
+        user(where: {id: $id}){
+            id
+            name
+            logo
 		        items{
-				        id
-		        }
-		        cart{
-				        id
+                id
+                title
+                price
+                description
+                image
+                largeImage
+                createdAt
 		        }
         }
     }
@@ -69,16 +88,16 @@ export const CURRENT_USER_QUERY = gql`
             id
             email
             name
-		        logo
+            logo
             permissions
             items{
-              id
-		            title
-		            description
-		            price
-		            createdAt
-		            image
-		            largeImage
+                id
+                title
+                description
+                price
+                createdAt
+                image
+                largeImage
             }
             cart{
                 id

@@ -20,10 +20,11 @@ type Mutation{
 }
 
 type Query{
-    items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, first: Int, account: Boolean): [Item]!
+    items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, first: Int): [Item]!
     item(where: ItemWhereUniqueInput!): Item!
     itemsConnection(where: ItemWhereInput): ItemConnection!
     me: User
+    user(where: UserWhereUniqueInput!): User!
     users: [User]!
     orders(orderBy: OrderOrderByInput): [Order]!
     order(id: ID!): Order

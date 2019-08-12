@@ -20,7 +20,7 @@ const OrderItemStyles = styled.li`
     display: grid;
     grid-gap: 10px;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-    margin-top: 1rem;
+    margin: 1rem 0;
     img {
       height: 200px;
       object-fit: cover;

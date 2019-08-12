@@ -11,6 +11,7 @@ import SingleItemStyles from './styles/SingleItemStyles';
 import { SINGLE_ITEM_QUERY } from '../queries';
 import formatMoney from '../lib/formatMoney';
 import ErrorPage from './ErrorPage';
+import AddToCart from './AddToCart';
 
 const SingleItem = ({ id }) =>
 	<Query query={SINGLE_ITEM_QUERY}
@@ -26,18 +27,25 @@ const SingleItem = ({ id }) =>
 						<h3>Viewing: <span>{data.item.title}</span></h3>
 						<p>Description: <span>{data.item.description}</span></p>
 						<p>Created at: <span>{format(new Date(data.item.createdAt), 'MMMM d, yyyy HH:MM')}</span></p>
-						<p>Seller: <span>{data.item.user.name}</span></p>
+						<p>Seller: <span>
+							<Link href={{
+								pathname: '/user',
+								query: { id: data.item.user.id }
+							}}><a>{data.item.user.name}</a>
+							</Link>
+						</span></p>
 						<p className="price">Price: <span>{formatMoney(data.item.price)}</span></p>
 						<User>
 							{({ data: { me } }) =>
-								me && me.id === data.item.user.id &&
-								<>
-									<Link href={{
-										pathname: '/update',
-										query: { id }
-									}}><a>Edit Item</a></Link>
-									<DeleteItem id={id} />
-								</>}
+								me && me.id === data.item.user.id ?
+									<>
+										<Link href={{
+											pathname: '/update',
+											query: { id }
+										}}><a>Edit Item</a></Link>
+										<DeleteItem id={id} />
+									</> :
+									<AddToCart id={id} />}
 						</User>
 					</div>
 				</SingleItemStyles> :

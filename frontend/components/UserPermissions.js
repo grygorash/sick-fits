@@ -34,7 +34,7 @@ class UserPermissions extends Component {
 		const { handleInputChange } = this;
 		const { permissions } = this.state;
 		const { user, possiblePermissions } = this.props;
-		console.log('--->this.state', this.state.permissions);
+
 		return (
 			<tr>
 				<td>{user.name}</td>

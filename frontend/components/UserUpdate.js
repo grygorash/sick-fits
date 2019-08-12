@@ -48,8 +48,6 @@ class UserUpdate extends Component {
 		const { uploadFile, handleInputChange, handleFormSubmit } = this;
 		const { name, logo, loadingImage } = this.state;
 
-		console.log('--->', this.props.user.id);
-
 		return (
 			<Mutation mutation={UPDATE_USER_MUTATION}
 			          variables={{ id: this.props.user.id, logo, name }}
