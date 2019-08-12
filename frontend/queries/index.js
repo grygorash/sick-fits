@@ -115,20 +115,6 @@ export const SEARCH_ITEMS_QUERY = gql`
     }
 `;
 
-export const ACCOUNT_ITEMS_QUERY = gql`
-    query ACCOUNT_ITEMS_QUERY($id: ID!, $account: Boolean){
-        items(where:{id: $id}, account: $account, orderBy: createdAt_DESC){
-            id
-            title
-            price
-            description
-            image
-            largeImage
-            createdAt
-        }
-    }
-`;
-
 export const USER_ORDERS_QUERY = gql`
     query USER_ORDERS_QUERY{
         orders(orderBy: createdAt_DESC){

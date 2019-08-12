@@ -6,8 +6,8 @@ import AccountStyles from './styles/AccountStyles';
 
 const Account = () =>
 	<User>
-		{({ data: { me } }) => {
-			return <AccountStyles>
+		{({ data: { me } }) =>
+			<AccountStyles>
 				<div className="user-info">
 					<img src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"
 					     alt="user image" />
@@ -26,10 +26,7 @@ const Account = () =>
 						Show Items
 					</a></Link>
 				</div>
-
-
-			</AccountStyles>;
-		}}
+			</AccountStyles>}
 	</User>;
 
 
