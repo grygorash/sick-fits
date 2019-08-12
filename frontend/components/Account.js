@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 
 import User from './User';
 import AccountStyles from './styles/AccountStyles';
@@ -8,8 +9,9 @@ const Account = () =>
 	<User>
 		{({ data: { me } }) =>
 			<AccountStyles>
+				<Head><title>Sale! Account</title></Head>
 				<div className="user-info">
-					<img src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"
+					<img src={me.logo}
 					     alt="user image" />
 					<div>
 						<p>Name: {me.name}</p>

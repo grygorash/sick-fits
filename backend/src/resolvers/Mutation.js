@@ -69,6 +69,7 @@ const Mutations = {
 			data: {
 				email,
 				name,
+				logo: 'https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg',
 				password: passwordHash,
 				permissions: { set: ['USER', 'ADMIN'] }
 			}
@@ -104,6 +105,20 @@ const Mutations = {
 	async signout(parent, args, ctx, info) {
 		await ctx.response.clearCookie('token');
 		return { message: 'Goodbye!' };
+	},
+	async updateUser(parents, args, ctx, info) {
+		const { userId } = ctx.request;
+
+		if (args.name.trim() === '') throw new Error('Name field is required');
+		if (!userId) throw new Error('You must be logged in to do that!');
+
+		return await ctx.db.mutation.updateUser({
+			where: { id: userId },
+			data: {
+				name: args.name,
+				logo: args.logo
+			}
+		});
 	},
 	async requestReset(parent, { email }, ctx, info) {
 		// check basic validation

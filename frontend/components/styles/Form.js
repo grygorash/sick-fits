@@ -50,7 +50,14 @@ const Form = styled.form`
   fieldset {
     border: 0;
     padding: 0;
-
+		&.user-update{
+			img{
+				width: 100px;
+		    height: 100px;
+		    object-fit: cover;
+				border-radius: 50%; 
+			}
+		}
     &[disabled] {
       opacity: 0.5;
     }

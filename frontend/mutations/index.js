@@ -28,6 +28,14 @@ export const SIGNOUT_MUTATION = gql`
     }
 `;
 
+export const UPDATE_USER_MUTATION = gql`
+    mutation UPDATE_USER_MUTATION($id: ID!, $name: String, $logo: String){
+        updateUser(id: $id, name: $name, logo: $logo){
+            id
+        }
+    }
+`;
+
 export const REQUEST_RESET_MUTATION = gql`
     mutation REQUEST_RESET_MUTATION($email: String!){
         requestReset(email: $email){
@@ -96,8 +104,8 @@ export const UPDATE_ITEM_MUTATION = gql`
             title
             description
             price
-		        image
-		        largeImage
+            image
+            largeImage
         }
     }
 `;

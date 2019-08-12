@@ -50,12 +50,7 @@ class UpdateItemForm extends Component {
 
 	handleFormSubmit = async (e, updateItem) => {
 		e.preventDefault();
-		const res = await updateItem({
-			variables: {
-				id: this.state.item.id,
-				...this.state.item
-			}
-		});
+		const res = await updateItem();
 		Router.push({
 			pathname: '/item',
 			query: { id: res.data.updateItem.id }
@@ -66,10 +61,14 @@ class UpdateItemForm extends Component {
 		const { handleInputChange, handleFormSubmit, uploadFile } = this;
 		const { title, price, description, image } = this.state.item;
 		const { loadingImage } = this.state;
+
 		return (
 			<Mutation
 				mutation={UPDATE_ITEM_MUTATION}
-				variables={this.state}>
+				variables={{
+					id: this.state.item.id,
+					...this.state.item
+				}}>
 				{(updateItem, { error, loading }) =>
 					<Form noValidate onSubmit={e => handleFormSubmit(e, updateItem)}>
 						<h2>Update an Item</h2>

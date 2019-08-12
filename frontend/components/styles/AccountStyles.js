@@ -1,11 +1,19 @@
 import styled from 'styled-components';
 
 const AccountStyles = styled.div`
+display: flex;
+flex-direction: column;
+[class*="user-"]{
+	padding-bottom: 20px;
+	border-bottom: 1px solid ${props => props.theme.lightgrey}
+}
 .user-info{
 	display: flex;
 	align-items: center;
 	img{
 		width: 100px;
+		height: 100px;
+		object-fit: cover;
 		border-radius: 50%;
 		margin-right: 20px;
 		}
