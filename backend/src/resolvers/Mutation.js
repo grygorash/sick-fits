@@ -192,12 +192,8 @@ const Mutations = {
 		// if its not, create a fresh CartItem for that user
 		return ctx.db.mutation.createCartItem({
 			data: {
-				user: {
-					connect: { id: userId }
-				},
-				item: {
-					connect: { id: args.id }
-				}
+				user: { connect: { id: userId } },
+				item: { connect: { id: args.id } }
 			}
 		}, info);
 	},

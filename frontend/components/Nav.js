@@ -17,7 +17,7 @@ const Nav = ({ router }) =>
 				{me && (<>
 					<Link href="/sell"><a className={router.pathname === '/sell' ? 'active' : ''}>Sell</a></Link>
 					<Link href="/orders"><a className={router.pathname === '/orders' ? 'active' : ''}>Orders</a></Link>
-					<Link href="/me"><a className={router.pathname === '/me' ? 'active' : ''}>Account</a></Link>
+					<Link href="/account"><a className={router.pathname === '/me' ? 'active' : ''}>Account</a></Link>
 					<Signout />
 					<Mutation mutation={TOGGLE_CART_MUTATION}>
 						{toggleCart =>

@@ -8,6 +8,7 @@ const AccountStyles = styled.div`
 		width: 100px;
 		border-radius: 50%;
 		margin-right: 20px;
+		}
 	}
 	p{
 		margin: 0 0 10px;
@@ -17,7 +18,6 @@ const AccountStyles = styled.div`
 		background: ${props => props.theme.red};
 		color: #fff;
 	}
-}
 `;
 
 export default AccountStyles;

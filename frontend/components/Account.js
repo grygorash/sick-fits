@@ -15,14 +15,15 @@ const Account = () =>
 						<p>Name: {me.name}</p>
 						<p>Email: {me.email}</p>
 						<Link href={{
-							pathname: '/update-user',
+							pathname: '/user-update',
 							query: { id: me.id }
 						}}><a>Edit Profile</a></Link>
 					</div>
 				</div>
 				<div className="user-items">
-					<Link href="/"><a>
-						You have {}
+					<p>You have {me.items.length} Item{me.items.length === 1 ? '' : 's'}</p>
+					<Link href="account-items"><a>
+						Show Items
 					</a></Link>
 				</div>
 

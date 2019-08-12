@@ -53,6 +53,12 @@ export const ALL_USERS_QUERY = gql`
             name
             email
             permissions
+		        items{
+				        id
+		        }
+		        cart{
+				        id
+		        }
         }
     }
 `;
@@ -64,6 +70,15 @@ export const CURRENT_USER_QUERY = gql`
             email
             name
             permissions
+            items{
+              id
+		            title
+		            description
+		            price
+		            createdAt
+		            image
+		            largeImage
+            }
             cart{
                 id
                 quantity

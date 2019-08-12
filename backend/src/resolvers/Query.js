@@ -55,8 +55,9 @@ const Query = {
 		}, info);
 	},
 	async order(parent, args, ctx, info) {
+		const { userId } = ctx.request;
 		// make sure they are logged in
-		if (!ctx.request.userId) throw new Error('You are not logged in');
+		if (!userId) throw new Error('You are not logged in');
 
 		// query the current order
 		const order = await ctx.db.query.order({
@@ -64,7 +65,7 @@ const Query = {
 		}, info);
 
 		// check if they have the permissions to see this order
-		const ownsOrder = order.user.id === ctx.request.userId;
+		const ownsOrder = order.user.id === userId;
 		if (!ownsOrder) throw new Error('You cant see this');
 
 		// return order
