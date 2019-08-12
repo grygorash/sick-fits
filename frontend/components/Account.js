@@ -22,9 +22,9 @@ const Account = () =>
 				</div>
 				<div className="user-items">
 					<p>You have {me.items.length} Item{me.items.length === 1 ? '' : 's'}</p>
-					<Link href="account-items"><a>
-						Show Items
-					</a></Link>
+					<Link href="account-items">
+						<a>Show Items</a>
+					</Link>
 				</div>
 			</AccountStyles>}
 	</User>;
