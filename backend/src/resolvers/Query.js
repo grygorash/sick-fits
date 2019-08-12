@@ -25,13 +25,14 @@ const Query = {
 			where: { user: { id_not: userId } }
 		}, info);
 	},
-	me(parent, args, ctx, info) {
+	async me(parent, args, ctx, info) {
+		const { userId } = ctx.request;
+
 		// check if there is a current user ID
-		if (!ctx.request.userId) {
-			return null;
-		}
-		return ctx.db.query.user({
-			where: { id: ctx.request.userId }
+		if (!userId) return null;
+
+		return await ctx.db.query.user({
+			where: { id: userId }
 		}, info);
 	},
 	async users(parent, args, ctx, info) {

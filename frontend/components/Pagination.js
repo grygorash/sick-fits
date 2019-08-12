@@ -15,7 +15,7 @@ const Pagination = ({ page }) =>
 			const pages = Math.ceil(count / perPage);
 			return (
 				<PaginationStyles>
-					<Head><title>Sick Fits! Page {page} of {pages}</title></Head>
+					<Head><title>Sale! Page {page} of {pages}</title></Head>
 					<Link href={{
 						pathname: 'items',
 						query: { page: page - 1 }

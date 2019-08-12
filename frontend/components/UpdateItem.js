@@ -9,9 +9,9 @@ import ErrorPage from './ErrorPage';
 const UpdateItem = ({ id }) =>
 	<Query query={SINGLE_ITEM_QUERY} variables={{ id }}>
 		{({ data }) =>
-			!data.item ?
-				<ErrorPage status={'404'} text={`No Item found for ID: ${id}`} /> :
-				<UpdateItemForm item={data.item} />}
+			data && Object.keys(data).length !== 0 ?
+				<UpdateItemForm item={data.item} /> :
+				<ErrorPage status={'404'} text={`No Item found for ID: ${id}`} />}
 	</Query>;
 
 UpdateItem.propTypes = {

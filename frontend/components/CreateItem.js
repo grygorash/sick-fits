@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Mutation, Query, withApollo } from 'react-apollo';
+import { Mutation, withApollo } from 'react-apollo';
 import Router from 'next/router';
+import Head from 'next/head';
 
 import Form from './styles/Form';
 import Error from './ErrorMessage';
 import { CREATE_ITEM_MUTATION } from '../mutations';
-import { PAGINATION_QUERY } from '../queries';
-import { perPage } from '../config';
 
 class CreateItem extends Component {
 	state = {
@@ -16,8 +15,7 @@ class CreateItem extends Component {
 			image: '',
 			largeImage: '',
 			price: ''
-		},
-		loadingImage: false
+		}
 	};
 
 	handleInputChange = ({ target }) => {
@@ -29,7 +27,7 @@ class CreateItem extends Component {
 		this.setState({ loadingImage: true });
 		const data = new FormData();
 		data.append('file', target.files[0]);
-		data.append('upload_preset', 'sickfits');
+		data.append('upload_preset', 'sale-shop');
 		const res = await fetch('https://api.cloudinary.com/v1_1/dlz9sdxba/image/upload', { method: 'POST', body: data });
 		const file = await res.json();
 		this.setState({
@@ -55,6 +53,7 @@ class CreateItem extends Component {
 			          variables={{ ...item, price: item.price === '' ? 0 : item.price }}>
 				{(createItem, { loading, error }) => (
 					<Form noValidate onSubmit={e => handleFormSubmit(e, createItem)}>
+						<Head><title>Sale! Sell</title></Head>
 						<h2>Sell an Item</h2>
 						<Error error={error} />
 						<fieldset disabled={loading || loadingImage} aria-busy={loading || loadingImage}>

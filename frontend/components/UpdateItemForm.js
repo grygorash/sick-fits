@@ -39,7 +39,7 @@ class UpdateItemForm extends Component {
 		this.setState({ loadingImage: true });
 		const data = new FormData();
 		data.append('file', target.files[0]);
-		data.append('upload_preset', 'sickfits');
+		data.append('upload_preset', 'sale-shop');
 		const res = await fetch('https://api.cloudinary.com/v1_1/dlz9sdxba/image/upload', { method: 'POST', body: data });
 		const file = await res.json();
 		this.setState({

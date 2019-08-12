@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import Head from 'next/head';
 import Link from 'next/link';
+import { format } from 'date-fns';
 
 import User from './User';
 import DeleteItem from './DeleteItem';
@@ -18,13 +19,15 @@ const SingleItem = ({ id }) =>
 			data && Object.keys(data).length !== 0 ?
 				<SingleItemStyles>
 					<Head>
-						<title>Sick Fits! {data.item.title}</title>
+						<title>Sale! {data.item.title}</title>
 					</Head>
 					<img src={data.item.largeImage} alt={data.item.title} />
 					<div className="details">
-						<h2>Viewing {data.item.title}</h2>
-						<p>{data.item.description}</p>
-						<p className="price">{formatMoney(data.item.price)}</p>
+						<h3>Viewing: <span>{data.item.title}</span></h3>
+						<p>Description: <span>{data.item.description}</span></p>
+						<p>Created at: <span>{format(new Date(data.item.createdAt), 'MMMM d, yyyy HH:MM')}</span></p>
+						<p>Seller: <span>{data.item.user.name}</span></p>
+						<p className="price">Price: <span>{formatMoney(data.item.price)}</span></p>
 						<User>
 							{({ data: { me } }) =>
 								me && me.id === data.item.user.id &&

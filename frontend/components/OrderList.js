@@ -1,6 +1,7 @@
 import React from 'react';
 import Query from 'react-apollo/Query';
 import Link from 'next/link';
+import Head from 'next/head';
 
 import Error from './ErrorMessage';
 import { USER_ORDERS_QUERY } from '../queries';
@@ -15,6 +16,7 @@ const OrderList = () =>
 			loading ? <div>Loading...</div> :
 				error ? <Error error={error} /> :
 					<>
+						<Head><title>Sale! Orders</title></Head>
 						<h2>You have {orders.length} orders</h2>
 						<OrderListStyles>
 							{orders.map(order =>

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import Head from 'next/head';
+import { format } from 'date-fns';
 
-import Error from './ErrorMessage';
 import { SINGLE_ORDER_QUERY } from '../queries';
 import OrderStyles from './styles/OrderStyles';
 import formatMoney from '../lib/formatMoney';
@@ -16,7 +16,7 @@ const SingleOrder = ({ id }) =>
 			data && Object.keys(data).length !== 0 ?
 				<OrderStyles>
 					<Head>
-						<title>Sick Fits - Order {data.order.id}</title>
+						<title>Sale! Order {data.order.id}</title>
 					</Head>
 					<p>
 						<span>OrderID: </span>
@@ -28,7 +28,7 @@ const SingleOrder = ({ id }) =>
 					</p>
 					<p>
 						<span>Date: </span>
-						<span>{data.order.createdAt}</span>
+						<span>{format(new Date(data.order.createdAt), 'MMMM d, yyyy HH:MM')}</span>
 					</p>
 					<p>
 						<span>Order Total: </span>

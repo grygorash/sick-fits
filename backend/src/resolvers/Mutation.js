@@ -15,20 +15,17 @@ const stripe = require('../stripe');
 
 const Mutations = {
 	async createItem(parents, args, ctx, info) {
+		const { userId } = ctx.request;
 		// check basic validation
 		validateCreateItem(args);
 
-		if (!ctx.request.userId) {
-			throw new Error('You must be logged in to do that!');
-		}
+		if (!userId) throw new Error('You must be logged in to do that!');
 
 		return await ctx.db.mutation.createItem({
 			data: {
 				// how to create relationship between item and user
 				user: {
-					connect: {
-						id: ctx.request.userId
-					}
+					connect: { id: userId }
 				},
 				...args,
 				createdAt: new Date()
@@ -99,7 +96,7 @@ const Mutations = {
 		// set the cookie with the token
 		ctx.response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 3600 // 1 hour cookie
+			maxAge: 1000 * 60 * 60 * 24 * 365  // 1 hour cookie
 		});
 		// return the user
 		return user;
@@ -117,7 +114,7 @@ const Mutations = {
 		if (!user) throw new Error(`No such user found for email ${email}`);
 		// set reset token and expiry on that user
 		const resetToken = (await promisify(randomBytes)(20)).toString('hex');
-		const resetExpiry = Date.now() + 3600; // 1hour from now
+		const resetExpiry = Date.now() + 3600000; // 1hour from now
 		await ctx.db.mutation.updateUser({
 			where,
 			data: { resetToken, resetExpiry }
@@ -143,7 +140,7 @@ const Mutations = {
 		// check if its expired
 		const [user] = await ctx.db.query.users({
 			where: { resetToken },
-			resetExpiry_gte: Date.now() - 3600
+			resetExpiry_gte: Date.now() - 3600000
 		});
 		if (!user) throw new Error('This token is either invalid or expired');
 		// hash their new password

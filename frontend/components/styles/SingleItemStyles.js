@@ -16,9 +16,17 @@ const SingleItemStyles = styled.div`
 	.details{
 		margin: 3rem;
 		font-size: 2rem;
+		p{
+			margin: 0 0 10px;
+			font-size: 20px;
+			span{
+				font-size: 16px;
+			}
+		}
 		.price{
-			color: ${props => props.theme.red};
-			font-size: 3rem;
+			span{
+				color: ${props => props.theme.red};
+			}
 		}
 		a, button{
 			background: ${props => props.theme.red};
