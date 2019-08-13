@@ -5,7 +5,10 @@ display: flex;
 flex-direction: column;
 [class*="user-"]{
 	padding-bottom: 20px;
-	border-bottom: 1px solid ${props => props.theme.lightgrey}
+	border-bottom: 1px solid ${props => props.theme.lightgrey};
+	&:not(:first-child){
+		padding-top: 20px;
+	}
 }
 .user-info{
 	display: flex;

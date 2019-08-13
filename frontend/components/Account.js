@@ -24,10 +24,16 @@ const Account = () =>
 				</div>
 				<div className="user-items">
 					<p>You have {me.items.length} Item{me.items.length === 1 ? '' : 's'}</p>
-					<Link href="account-items">
+					<Link href="/account-items">
 						<a>Show Items</a>
 					</Link>
 				</div>
+				{me.permissions.includes('ADMIN') &&
+				<div className="user-permissions">
+					<Link href="/permissions"><a>
+						Show permissions
+					</a></Link>
+				</div>}
 			</AccountStyles>}
 	</User>;
 

@@ -37,15 +37,16 @@ const SingleItem = ({ id }) =>
 						<p className="price">Price: <span>{formatMoney(data.item.price)}</span></p>
 						<User>
 							{({ data: { me } }) =>
-								me && me.id === data.item.user.id ?
+								<>
+									{me && me.id === data.item.user.id &&
 									<>
-										<Link href={{
-											pathname: '/update',
-											query: { id }
-										}}><a>Edit Item</a></Link>
+										<Link href={{ pathname: '/update', query: { id } }}>
+											<a>Edit Item</a>
+										</Link>
 										<DeleteItem id={id} />
-									</> :
-									<AddToCart id={id} />}
+									</>}
+									{me && me.id !== data.item.user.id && <AddToCart id={id} />}
+								</>}
 						</User>
 					</div>
 				</SingleItemStyles> :

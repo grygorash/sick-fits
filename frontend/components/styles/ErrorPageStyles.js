@@ -12,12 +12,11 @@ const ErrorPageStyles = styled.div`
 	justify-content: center;
 	font-size: 50px;
 	color: ${props => props.theme.red};
-	h3{
-		margin: 0 0 20px;
+	h3, p{
+		margin: 0;
 	}
 	p{
 		font-size: 22px;
-		margin: 0;
 	}
 `;
 

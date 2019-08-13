@@ -4,6 +4,9 @@ const Table = styled.table`
   border-spacing: 0;
   width: 100%;
   border: 1px solid ${props => props.theme.offWhite};
+  &.disabled{
+	  pointer-events: none;
+  }
   thead {
     font-size: 10px;
   }
