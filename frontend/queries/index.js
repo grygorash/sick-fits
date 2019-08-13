@@ -53,6 +53,7 @@ export const ALL_USERS_QUERY = gql`
             name
             email
             permissions
+		        logo
             items{
                 id
             }

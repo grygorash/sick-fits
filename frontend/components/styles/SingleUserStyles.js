@@ -26,9 +26,6 @@ const SingleUserStyles = styled.div`
 		}
 	}
 	img{
-			width: 100px;
-			height: 100px;
-			object-fit: cover;
 			margin-right: 20px;
 		}
 `;

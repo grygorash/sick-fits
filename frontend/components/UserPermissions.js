@@ -19,7 +19,7 @@ class UserPermissions extends Component {
 	state = { permissions: this.props.user.permissions };
 
 	handleInputChange = ({ target }) => {
-		const { permissions} = this.state;
+		const { permissions } = this.state;
 
 		target.checked ?
 			this.setState({
@@ -37,6 +37,7 @@ class UserPermissions extends Component {
 
 		return (
 			<tr>
+				<td><img src={user.logo} alt="" className="logo-user min" /></td>
 				<td>{user.name}</td>
 				<td>{user.email}</td>
 				{possiblePermissions.map(permission =>

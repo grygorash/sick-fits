@@ -30,6 +30,7 @@ const Permissions = () =>
 							<Table className={canUpdate ? '' : 'disabled'}>
 								<thead>
 								<tr>
+									<th>Logo</th>
 									<th>Name</th>
 									<th>Email</th>
 									{possiblePermissions.map(permission => <th key={permission}>{permission}</th>)}

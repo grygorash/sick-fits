@@ -15,7 +15,7 @@ const SingleUser = ({ id }) =>
 			data && Object.keys(data).length !== 0 ?
 				<SingleUserStyles>
 					<div className="user-info">
-						<img src={data.user.logo} alt={data.user.name} />
+						<img src={data.user.logo} alt={data.user.name} className="logo-user" />
 						<p>Seller: <span>{data.user.name}</span></p>
 					</div>
 					<div className="user-items">

@@ -12,7 +12,8 @@ const Account = () =>
 				<Head><title>Sale! Account</title></Head>
 				<div className="user-info">
 					<img src={me.logo}
-					     alt="user image" />
+					     alt="user image"
+					     className="logo-user" />
 					<div>
 						<p>Name: {me.name}</p>
 						<p>Email: {me.email}</p>
