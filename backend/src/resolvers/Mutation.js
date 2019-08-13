@@ -71,7 +71,7 @@ const Mutations = {
 				name,
 				logo: 'https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg',
 				password: passwordHash,
-				permissions: { set: ['USER', 'ADMIN'] }
+				permissions: { set: ['USER', 'ITEMCREATE', 'ITEMUPDATE', 'ITEMDELETE'] }
 			}
 		}, info);
 		// create the JWT token for them
