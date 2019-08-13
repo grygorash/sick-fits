@@ -29,13 +29,3 @@ type Query{
     orders(orderBy: OrderOrderByInput): [Order]!
     order(id: ID!): Order
 }
-
-type User{
-    id: ID!
-    name: String!
-    email: String!
-    permissions: [Permission!]!
-    logo: String
-    items:[Item!]!
-    cart: [CartItem!]!
-}
