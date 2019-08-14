@@ -14,10 +14,10 @@ const hasPermission = require('../utils');
 const stripe = require('../stripe');
 
 const Mutations = {
-	async createItem(parents, args, ctx, info) {
+	async createItem(parents, { title, description, price, image, largeImage }, ctx, info) {
 		const { userId } = ctx.request;
 		// check basic validation
-		validateCreateItem(args);
+		validateCreateItem(title, price, image);
 
 		if (!userId) throw new Error('You must be logged in to do that!');
 
@@ -27,8 +27,11 @@ const Mutations = {
 				user: {
 					connect: { id: userId }
 				},
-				...args,
-				createdAt: new Date()
+				title,
+				description,
+				price,
+				image: { set: image },
+				largeImage: { set: largeImage }
 			}
 		}, info);
 	},
@@ -71,7 +74,7 @@ const Mutations = {
 				name,
 				logo: 'https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg',
 				password: passwordHash,
-				permissions: { set: ['USER', 'ADMIN'] }
+				permissions: { set: ['USER', 'ITEMCREATE', 'ITEMUPDATE', 'ITEMDELETE'] }
 			}
 		}, info);
 		// create the JWT token for them

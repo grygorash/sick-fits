@@ -24,10 +24,10 @@ type Item{
     id: ID! @id
     title: String!
     description: String!
-    image: String
-    largeImage: String
+    image: [String] @scalarList(strategy: RELATION)
+    largeImage: [String] @scalarList(strategy: RELATION)
     price: Int!
-    createdAt: DateTime!
+    createdAt: DateTime! @createdAt
     user: User!
 }
 
@@ -55,6 +55,6 @@ type Order {
     total: Int!
     user: User!
     charge: String!
-    createdAt: DateTime!
-    updatedAt: DateTime
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime @updatedAt
 }

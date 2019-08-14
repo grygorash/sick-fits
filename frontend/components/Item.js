@@ -12,29 +12,29 @@ import User from './User';
 
 const Item = ({ item }) =>
 	<ItemStyles>
-		{item.image && <img src={item.image} alt={item.title} />}
-		<Title>
-			<Link href={{
-				pathname: '/item',
-				query: { id: item.id }
-			}}><a>{item.title}</a></Link>
-		</Title>
-		<PriceTag>{formatMoney(item.price)}</PriceTag>
-		<p>{item.description}</p>
-		<User>
-			{({ data: { me } }) => me &&
-				<div className="buttonList">
-					{me.id === item.user.id &&
-					<>
-						<Link href={{ pathname: 'update', query: { id: item.id } }}>
-							<a>Edit</a>
-						</Link>
-						<DeleteItem id={item.id} />
-					</>}
-					{me.id !== item.user.id &&
-					<AddToCart id={item.id} />}
-				</div>}
-		</User>
+		<Link href={{
+			pathname: '/item',
+			query: { id: item.id }
+		}}><a>
+			{<img src={item.image[0]} alt={item.title} />}
+			<Title><p>{item.title}</p></Title>
+			<PriceTag>{formatMoney(item.price)}</PriceTag>
+			<p>{item.description}</p>
+			<User>
+				{({ data: { me } }) => me &&
+					<div className="buttonList">
+						{me.id === item.user.id &&
+						<>
+							<Link href={{ pathname: 'update', query: { id: item.id } }}>
+								<a>Edit</a>
+							</Link>
+							<DeleteItem id={item.id} />
+						</>}
+						{me.id !== item.user.id &&
+						<AddToCart id={item.id} />}
+					</div>}
+			</User>
+		</a></Link>
 	</ItemStyles>;
 
 Item.propTypes = {

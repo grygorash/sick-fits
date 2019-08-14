@@ -28,7 +28,7 @@ const SingleOrder = ({ id }) =>
 					</p>
 					<p>
 						<span>Date: </span>
-						<span>{format(new Date(data.order.createdAt), 'MMMM d, yyyy HH:MM')}</span>
+						<span>{format(new Date(data.order.createdAt), 'MMMM d, yyyy HH:mm')}</span>
 					</p>
 					<p>
 						<span>Order Total: </span>

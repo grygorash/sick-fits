@@ -1,5 +1,4 @@
 import React from 'react';
-import { Query } from 'react-apollo';
 import Link from 'next/link';
 import Head from 'next/head';
 import { format } from 'date-fns';
@@ -26,10 +25,10 @@ const AccountItems = () =>
 									<div className="order-meta">
 										<p>Title: {item.title}</p>
 										<p>Price: {formatMoney(item.price)}</p>
-										<p>Created at: {format(new Date(item.createdAt), 'MMMM d, yyyy HH:MM')}</p>
+										<p>Created at: {format(new Date(item.createdAt), 'MMMM d, yyyy HH:mm')}</p>
 									</div>
 									<span className="images">
-													<img key={item.id} src={item.image} alt={item.title} />
+													<img key={item.id} src={item.image[0]} alt={item.title} />
 									</span>
 									<div className="order-meta">
 										{item.description && <p>Description: {item.description}</p>}

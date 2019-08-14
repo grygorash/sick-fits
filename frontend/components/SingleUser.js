@@ -15,7 +15,7 @@ const SingleUser = ({ id }) =>
 			data && Object.keys(data).length !== 0 ?
 				<SingleUserStyles>
 					<div className="user-info">
-						<img src={data.user.logo} alt={data.user.name} />
+						<img src={data.user.logo} alt={data.user.name} className="logo-user" />
 						<p>Seller: <span>{data.user.name}</span></p>
 					</div>
 					<div className="user-items">
@@ -28,10 +28,10 @@ const SingleUser = ({ id }) =>
 								      query: { id: item.id }
 							      }}>
 								<a>
-									<img src={item.image} alt={item.title} />
+									<img src={item.image[0]} alt={item.title} />
 									<p>Title: {item.title}</p>
 									<p>Price: {formatMoney(item.price)}</p>
-									<p>Created At: {format(new Date(item.createdAt), 'MMMM d, yyyy HH:MM')}</p>
+									<p>Created At: {format(new Date(item.createdAt), 'MMMM d, yyyy HH:mm')}</p>
 								</a>
 							</Link>
 						)}

@@ -4,10 +4,12 @@ import { Query } from 'react-apollo';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { Carousel } from 'react-responsive-carousel';
 
 import User from './User';
 import DeleteItem from './DeleteItem';
 import SingleItemStyles from './styles/SingleItemStyles';
+import CarouselStyles from './styles/CarouselStyles';
 import { SINGLE_ITEM_QUERY } from '../queries';
 import formatMoney from '../lib/formatMoney';
 import ErrorPage from './ErrorPage';
@@ -16,17 +18,21 @@ import AddToCart from './AddToCart';
 const SingleItem = ({ id }) =>
 	<Query query={SINGLE_ITEM_QUERY}
 	       variables={{ id }}>
-		{({ data }) =>
-			data && Object.keys(data).length !== 0 ?
+		{({ data }) => {
+			return data && Object.keys(data).length !== 0 ?
 				<SingleItemStyles>
 					<Head>
 						<title>Sale! {data.item.title}</title>
 					</Head>
-					<img src={data.item.largeImage} alt={data.item.title} />
+					<CarouselStyles>
+						<Carousel showArrows emulateTouch swipeable>
+							{data.item.largeImage.map((img, i) => <img key={i} src={img} alt={data.item.title} />)}
+						</Carousel>
+					</CarouselStyles>
 					<div className="details">
 						<h3>Viewing: <span>{data.item.title}</span></h3>
 						<p>Description: <span>{data.item.description}</span></p>
-						<p>Created at: <span>{format(new Date(data.item.createdAt), 'MMMM d, yyyy HH:MM')}</span></p>
+						<p>Created at: <span>{format(new Date(data.item.createdAt), 'MMMM d, yyyy HH:mm')}</span></p>
 						<p>Seller: <span>
 							<Link href={{
 								pathname: '/user',
@@ -50,7 +56,8 @@ const SingleItem = ({ id }) =>
 						</User>
 					</div>
 				</SingleItemStyles> :
-				<ErrorPage status="404" text={`No item found for ID: ${id}`} />}
+				<ErrorPage status="404" text={`No item found for ID: ${id}`} />;
+		}}
 	</Query>;
 
 SingleItem.propTypes = {

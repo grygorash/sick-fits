@@ -1,4 +1,5 @@
 import React from 'react';
+import 'react-responsive-carousel/lib/styles/carousel.css';
 import styled, { ThemeProvider, injectGlobal } from 'styled-components';
 
 import Meta from './Meta';
@@ -60,6 +61,16 @@ injectGlobal`
 			&:disabled{
 				opacity: .2;
 			}
+	}
+	.logo-user{
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+		object-fit: cover;
+		&.min{
+			width: 50px;
+			height: 50px;
+		}
 	}
 `;
 

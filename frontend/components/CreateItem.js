@@ -12,8 +12,8 @@ class CreateItem extends Component {
 		item: {
 			title: '',
 			description: '',
-			image: '',
-			largeImage: '',
+			image: [],
+			largeImage: [],
 			price: ''
 		}
 	};
@@ -25,14 +25,40 @@ class CreateItem extends Component {
 
 	uploadFile = async ({ target }) => {
 		this.setState({ loadingImage: true });
-		const data = new FormData();
-		data.append('file', target.files[0]);
-		data.append('upload_preset', 'sale-shop');
-		const res = await fetch('https://api.cloudinary.com/v1_1/dlz9sdxba/image/upload', { method: 'POST', body: data });
-		const file = await res.json();
+		for (let i in target.files) {
+			if (target.files.hasOwnProperty(i)) {
+				const { item } = this.state;
+				const data = new FormData();
+				data.append('file', target.files[i]);
+				data.append('upload_preset', 'sale-shop');
+				const res = await fetch(
+					'https://api.cloudinary.com/v1_1/dlz9sdxba/image/upload',
+					{ method: 'POST', body: data }
+				);
+				const file = await res.json();
+				this.setState({
+					item: {
+						...item,
+						image: [...item.image, file.secure_url],
+						largeImage: [...item.largeImage, file.eager[0].secure_url]
+					}
+				});
+			}
+		}
 		this.setState({
-			item: { ...this.state.item, image: file.secure_url, largeImage: file.eager[0].secure_url },
 			loadingImage: false
+		});
+	};
+
+	handleImageDelete = (e, i) => {
+		const { item } = this.state;
+		const getImages = path => path.filter((image, index) => index !== i);
+		this.setState({
+			item: {
+				...item,
+				image: getImages(item.image),
+				largeImage: getImages(item.largeImage)
+			}
 		});
 	};
 
@@ -46,8 +72,9 @@ class CreateItem extends Component {
 	};
 
 	render() {
-		const { uploadFile, handleInputChange, handleFormSubmit } = this;
+		const { uploadFile, handleInputChange, handleImageDelete, handleFormSubmit } = this;
 		const { item, loadingImage } = this.state;
+		console.log('--->', this.state.item.image);
 		return (
 			<Mutation mutation={CREATE_ITEM_MUTATION}
 			          variables={{ ...item, price: item.price === '' ? 0 : item.price }}>
@@ -63,11 +90,21 @@ class CreateItem extends Component {
 									type="file"
 									id="file"
 									placeholder="Upload an Image"
+									multiple
 									onChange={uploadFile}
 									required
 								/>
 							</label>
-							{item.image && <img src={item.image} alt="Upload preview" />}
+							{item.image.length ?
+								<div className="image-container">
+									{item.image.map((img, i) =>
+										<div key={i}>
+											<button type="button" onClick={e => handleImageDelete(e, i)}>x</button>
+											<img src={img} alt="Upload preview" />
+										</div>
+									)}
+								</div> : null
+							}
 							<label htmlFor="title">
 								Title
 								<input

@@ -29,7 +29,7 @@ const OrderList = () =>
 											<div className="order-meta">
 												<p>Items: {order.items.reduce((a, b) => a + b.quantity, 0)}</p>
 												<p>Products: {order.items.length}</p>
-												<p>Create at: {format(new Date(order.createdAt), 'MMMM d, yyyy HH:MM')}</p>
+												<p>Create at: {format(new Date(order.createdAt), 'MMMM d, yyyy HH:mm')}</p>
 												<p>Total: {formatMoney(order.total)}</p>
 											</div>
 											<span className="images">

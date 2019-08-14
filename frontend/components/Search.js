@@ -60,7 +60,7 @@ class AutoComplete extends Component {
 									              key={item.id}
 									              highlighted={i === highlightedIndex}
 									              onClick={() => handleRouteToItem(item)}>
-										<img width="50" src={item.image} alt={item.title} />
+										<img width="50" src={item.image[0]} alt={item.title} />
 										{item.title}
 									</DropDownItem>)}
 								{!items.length && !loading && inputValue.trim().length !== 0 &&

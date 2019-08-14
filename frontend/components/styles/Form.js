@@ -18,6 +18,13 @@ const Form = styled.form`
   font-size: 1.5rem;
   line-height: 1.5;
   font-weight: 600;
+  .image-container{
+  	display: flex;
+  	flex-flow: row wrap;
+  	button{
+  	  position: absolute;
+  	}
+  }
   label {
     display: block;
     margin-bottom: 1rem;
@@ -73,6 +80,8 @@ const Form = styled.form`
     }
     img{
 	    width: 200px;
+	    height: 200px;
+	    object-fit: cover;
     }
   }
   .message-success{
