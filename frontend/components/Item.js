@@ -20,25 +20,34 @@ const Item = ({ item }) =>
 			<Title><p>{item.title}</p></Title>
 			<PriceTag>{formatMoney(item.price)}</PriceTag>
 			<p>{item.description}</p>
-			<User>
-				{({ data: { me } }) => me &&
-					<div className="buttonList">
-						{me.id === item.user.id &&
-						<>
-							<Link href={{ pathname: 'update', query: { id: item.id } }}>
-								<a>Edit</a>
-							</Link>
-							<DeleteItem id={item.id} />
-						</>}
-						{me.id !== item.user.id &&
-						<AddToCart id={item.id} />}
-					</div>}
-			</User>
 		</a></Link>
+		<User>
+			{({ data: { me } }) => me &&
+				<div className="buttonList">
+					{me.id === item.user.id &&
+					<>
+						<Link href={{ pathname: 'update', query: { id: item.id } }}>
+							<a>Edit</a>
+						</Link>
+						<DeleteItem id={item.id} />
+					</>}
+					{me.id !== item.user.id &&
+					<AddToCart id={item.id} />}
+				</div>}
+		</User>
 	</ItemStyles>;
 
+
 Item.propTypes = {
-	item: PropTypes.object.isRequired
+	item: PropTypes.shape({
+		id: PropTypes.string.isRequired,
+		image: PropTypes.array.isRequired,
+		title: PropTypes.string.isRequired,
+		description: PropTypes.string.isRequired,
+		user: PropTypes.shape({
+			id: PropTypes.string.isRequired
+		})
+	})
 };
 
 export default Item;

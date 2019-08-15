@@ -74,7 +74,7 @@ class CreateItem extends Component {
 	render() {
 		const { uploadFile, handleInputChange, handleImageDelete, handleFormSubmit } = this;
 		const { item, loadingImage } = this.state;
-		console.log('--->', this.state.item.image);
+
 		return (
 			<Mutation mutation={CREATE_ITEM_MUTATION}
 			          variables={{ ...item, price: item.price === '' ? 0 : item.price }}>

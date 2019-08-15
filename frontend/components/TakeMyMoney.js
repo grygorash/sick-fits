@@ -40,7 +40,7 @@ const TakeMyMoney = props => {
 								<StripeCheckout amount={calcTotalPrice(me.cart)}
 								                name="Sick Fits"
 								                description={`Order of ${handleTotalItems(me.cart)} items`}
-								                image={me.cart.length && me.cart[0].item && me.cart[0].item.image}
+								                image={me.cart.length && me.cart[0].item && me.cart[0].item.image[0]}
 								                stripeKey="pk_test_41sYlVTsb3GrQmzknY0kA0xr003z6kSvF9"
 								                currency="USD"
 								                email={me.email}

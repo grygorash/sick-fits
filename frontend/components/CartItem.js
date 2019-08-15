@@ -8,7 +8,7 @@ import formatMoney from '../lib/formatMoney';
 const CartItem = ({ cartItem }) =>
 	cartItem.item ?
 		<CartItemStyles>
-			<img src={cartItem.item.image} alt={cartItem.item.title} />
+			<img src={cartItem.item.image[0]} alt={cartItem.item.title} />
 			<div className="cart-item-details">
 				<h3>{cartItem.item.title}</h3>
 				<p>
