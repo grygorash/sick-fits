@@ -105,8 +105,8 @@ export const UPDATE_ITEM_MUTATION = gql`
         $id: ID!
         $title: String
         $description: String
-        $image: String
-        $largeImage: String
+        $image: [String!]!
+        $largeImage: [String!]!
         $price: Int){
         updateItem(
             id: $id

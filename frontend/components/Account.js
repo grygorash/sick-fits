@@ -37,9 +37,10 @@ const Account = ({ router }) =>
 				</div>
 				<div className="user-items">
 					<p>You have {me.items.length} Item{me.items.length === 1 ? '' : 's'}</p>
-					<Link href="/account-items">
-						<a>Show Items</a>
-					</Link>
+					{me.items.length ?
+						<Link href="/account-items">
+							<a>Show Items</a>
+						</Link> : null}
 				</div>
 				{me.permissions.includes('ADMIN') &&
 				<div className="user-permissions">

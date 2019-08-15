@@ -36,14 +36,18 @@ const Mutations = {
 			}
 		}, info);
 	},
-	async updateItem(parent, args, ctx, info) {
+	async updateItem(parent, { id, title, description, price, image, largeImage }, ctx, info) {
 		// check basic validation
-		validateUpdateItem(args);
-		const where = { id: args.id };
+		validateUpdateItem({ title, price, image });
+		const where = { id };
 		// first take a copy of the updates
-		const data = { ...args };
-		// remove the ID from the updates
-		delete data.id;
+		const data = {
+			title,
+			description,
+			price,
+			image: { set: image },
+			largeImage: { set: largeImage }
+		};
 		// run the update method
 		return ctx.db.mutation.updateItem({ data, where }, info);
 	},

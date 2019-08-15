@@ -14,7 +14,7 @@ class UpdateItemForm extends Component {
 			title: PropTypes.string.isRequired,
 			price: PropTypes.number.isRequired,
 			description: PropTypes.string.isRequired,
-			image: PropTypes.string.isRequired
+			image: PropTypes.array.isRequired
 		})
 	};
 
@@ -37,14 +37,40 @@ class UpdateItemForm extends Component {
 
 	uploadFile = async ({ target }) => {
 		this.setState({ loadingImage: true });
-		const data = new FormData();
-		data.append('file', target.files[0]);
-		data.append('upload_preset', 'sale-shop');
-		const res = await fetch('https://api.cloudinary.com/v1_1/dlz9sdxba/image/upload', { method: 'POST', body: data });
-		const file = await res.json();
+		for (let i in target.files) {
+			if (target.files.hasOwnProperty(i)) {
+				const { item } = this.state;
+				const data = new FormData();
+				data.append('file', target.files[i]);
+				data.append('upload_preset', 'sale-shop');
+				const res = await fetch(
+					'https://api.cloudinary.com/v1_1/dlz9sdxba/image/upload',
+					{ method: 'POST', body: data }
+				);
+				const file = await res.json();
+				this.setState({
+					item: {
+						...item,
+						image: [...item.image, file.secure_url],
+						largeImage: [...item.largeImage, file.eager[0].secure_url]
+					}
+				});
+			}
+		}
 		this.setState({
-			item: { ...this.state.item, image: file.secure_url, largeImage: file.eager[0].secure_url },
 			loadingImage: false
+		});
+	};
+
+	handleImageDelete = (e, i) => {
+		const { item } = this.state;
+		const getImages = path => path.filter((image, index) => index !== i);
+		this.setState({
+			item: {
+				...item,
+				image: getImages(item.image),
+				largeImage: getImages(item.largeImage)
+			}
 		});
 	};
 
@@ -58,10 +84,10 @@ class UpdateItemForm extends Component {
 	};
 
 	render() {
-		const { handleInputChange, handleFormSubmit, uploadFile } = this;
+		const { handleInputChange, handleFormSubmit, uploadFile, handleImageDelete } = this;
 		const { title, price, description, image } = this.state.item;
 		const { loadingImage } = this.state;
-
+		console.log('--->state: ', this.state.item);
 		return (
 			<Mutation
 				mutation={UPDATE_ITEM_MUTATION}
@@ -84,7 +110,14 @@ class UpdateItemForm extends Component {
 									required
 								/>
 							</label>
-							{image && <img src={image} alt="Upload preview" />}
+							{<div className="image-container">
+								{image.map((img, i) =>
+									<div key={i}>
+										<button type="button" onClick={e => handleImageDelete(e, i)}>x</button>
+										<img src={img} alt="Upload preview" />
+									</div>
+								)}
+							</div>}
 							<label htmlFor="title">
 								Title
 								<input
