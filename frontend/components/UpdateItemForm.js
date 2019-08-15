@@ -87,7 +87,7 @@ class UpdateItemForm extends Component {
 		const { handleInputChange, handleFormSubmit, uploadFile, handleImageDelete } = this;
 		const { title, price, description, image } = this.state.item;
 		const { loadingImage } = this.state;
-		console.log('--->state: ', this.state.item);
+
 		return (
 			<Mutation
 				mutation={UPDATE_ITEM_MUTATION}
