@@ -41,7 +41,7 @@ const SingleOrder = ({ id }) =>
 					<div className="items">
 						{data.order.items.map(item =>
 							<div key={item.id} className="order-item">
-								<img src={item.image} alt={item.title} />
+								<img src={item.image[0]} alt={item.title} />
 								<div className="item-details">
 									<h2>{item.title}</h2>
 									<p>Qty: {item.quantity}</p>

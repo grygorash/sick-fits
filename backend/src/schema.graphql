@@ -5,14 +5,16 @@ type SuccessMessage{
 
 type Mutation{
     createItem(title: String, description: String, price: Int, image: [String], largeImage: [String]): Item!
-    updateItem(id: ID!, title: String, description: String, price: Int, image: String, largeImage: String): Item!
+    updateItem(id: ID!, title: String, description: String, price: Int, image: [String], largeImage: [String]): Item!
     deleteItem(id: ID!): Item
     signup(email: String!, password: String!, passwordConfirm: String, name: String!): User!
     signin(email: String!, password: String!): User!
     signout: SuccessMessage
     updateUser(id:ID!, name: String, logo: String): User!
-    requestReset(email: String!): SuccessMessage
+    deleteUser(id: ID!): User
+    requestReset(email: String!, reset: String!): SuccessMessage
     resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
+    resetEmail(resetToken: String!, email: String!, confirmEmail: String!): User!
     updatePermissions(permissions: [Permission], userId: ID!): User
     addToCart(id: ID!): CartItem
     removeFromCart(id: ID!): CartItem

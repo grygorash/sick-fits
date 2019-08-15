@@ -21,10 +21,17 @@ flex-direction: column;
 		margin: 0 0 10px;
 	}
 	a{
-		padding: 10px;
-		background: ${props => props.theme.red};
-		color: #fff;
+		margin-right: 5px;
 	}
+}
+a, button{
+	border: none;
+	outline: none;
+	padding: 10px;
+	background: ${props => props.theme.red};
+	color: #fff;
+	font-size: 14px;
+}
 `;
 
 export default AccountStyles;

@@ -9,6 +9,7 @@ const validateSignin = require('../validation/validateSignin');
 const validateSignup = require('../validation/validateSignup');
 const validateRequestReset = require('../validation/validateRequestReset');
 const validateResetPassword = require('../validation/validateResetPassword');
+const validateResetEmail = require('../validation/validateResetEmail');
 const { transport, makeANiceEmail } = require('../mail');
 const hasPermission = require('../utils');
 const stripe = require('../stripe');
@@ -123,7 +124,11 @@ const Mutations = {
 			}
 		});
 	},
-	async requestReset(parent, { email }, ctx, info) {
+	async deleteUser(parent, args, ctx, info) {
+		const where = { id: args.id };
+		return await ctx.db.mutation.deleteUser({ where });
+	},
+	async requestReset(parent, { email, reset }, ctx, info) {
 		// check basic validation
 		validateRequestReset({ email });
 		const where = { email };
@@ -141,18 +146,36 @@ const Mutations = {
 		await transport.sendMail({
 			from: 'sick-fits@gmail.com',
 			to: user.email,
-			subject: 'Your Password Reset Token',
-			html: makeANiceEmail(`<a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here To Reset</a>`)
+			subject: reset === 'password' ? 'Your Password Reset Token' : 'Your Email Reset Token',
+			html: makeANiceEmail(
+				`<a href="${process.env.FRONTEND_URL}/${reset === 'password' ? 'password-reset' : 'email-reset'}?resetToken=${resetToken}">Click Here To Reset</a>`
+			)
 		});
 		// return the message
 		return { message: 'Thanks' };
 	},
+	async resetEmail(parent, { email, confirmEmail, resetToken }, ctx, info) {
+		validateResetEmail({ email, confirmEmail });
+
+		const [user] = await ctx.db.query.users({
+			where: { resetToken },
+			resetExpiry_gte: Date.now() - 3600000
+		});
+
+		if (!user) throw new Error('This token is either invalid or expired');
+
+		return await ctx.db.mutation.updateUser({
+			where: { email },
+			data: {
+				email: confirmEmail,
+				resetToken: null,
+				resetExpiry: null
+			}
+		});
+	},
 	async resetPassword(parent, { password, confirmPassword, resetToken }, ctx, info) {
 		// check basic validation
-		validateResetPassword({
-			password,
-			confirmPassword
-		});
+		validateResetPassword({ password, confirmPassword });
 		// check if its a legit reset token
 
 		// check if its expired
@@ -260,8 +283,14 @@ const Mutations = {
 		});
 		// convert the CartItems to OrderItems
 		const orderItems = user.cart.map(cartItem => {
+			const { id, title, description, image, largeImage, price } = cartItem.item;
 			const orderItem = {
-				...cartItem.item,
+				id,
+				title,
+				description,
+				image: { set: image },
+				largeImage: { set: largeImage },
+				price,
 				quantity: cartItem.quantity,
 				user: { connect: { id: userId } }
 			};
@@ -274,8 +303,7 @@ const Mutations = {
 				total: charge.amount,
 				charge: charge.id,
 				items: { create: orderItems },
-				user: { connect: { id: userId } },
-				createdAt: new Date()
+				user: { connect: { id: userId } }
 			}
 		});
 		// clean up - clear the users cart, delete cartItems

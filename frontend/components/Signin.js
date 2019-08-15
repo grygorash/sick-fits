@@ -18,9 +18,9 @@ class Signin extends Component {
 		this.setState({ [target.id]: target.value });
 	};
 
-	handleFormSubmit = (e, signin) => {
+	handleFormSubmit = async (e, signin) => {
 		e.preventDefault();
-		signin()
+		await signin()
 			.then(() => this.props.client.resetStore())
 			.then(() => Router.push('/items'))
 			.then(() => this.props.client.cache.writeQuery({ query: LOCAL_STATE_QUERY, data: { cartOpen: false } }));
@@ -55,7 +55,7 @@ class Signin extends Component {
 								       onChange={handleInputChange} />
 							</label>
 							<button type="submit">Sign In</button>
-							<Link href="/request-reset"><a className="request-reset-link">Forgot Password?</a></Link>
+							<Link href="/password-request-reset"><a className="request-reset-link">Forgot Password?</a></Link>
 						</fieldset>
 					</Form>}
 			</Mutation>

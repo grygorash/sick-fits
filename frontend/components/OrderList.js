@@ -34,7 +34,7 @@ const OrderList = () =>
 											</div>
 											<span className="images">
 												{order.items.map(item =>
-													<img key={item.id} src={item.image} alt={item.title} />)}
+													<img key={item.id} src={item.image[0]} alt={item.title} />)}
 											</span>
 										</a>
 									</Link>

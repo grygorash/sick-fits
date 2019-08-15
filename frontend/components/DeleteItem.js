@@ -11,14 +11,13 @@ const DeleteItem = ({ router, id }) =>
 		mutation={DELETE_ITEM_MUTATION}
 		variables={{ id }}
 		refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
-		{(deleteItem) => {
-			return <button onClick={async () => {
+		{(deleteItem) =>
+			<button onClick={async () => {
 				confirm('Are you sure want to delete this item?') &&
 				await deleteItem().then(() => router.push('/account-items'));
 			}}>
 				Delete Item
-			</button>;
-		}}
+			</button>}
 	</Mutation>;
 
 DeleteItem.propTypes = {

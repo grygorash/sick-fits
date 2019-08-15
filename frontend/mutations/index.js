@@ -36,20 +36,36 @@ export const UPDATE_USER_MUTATION = gql`
     }
 `;
 
+export const DELETE_USER_MUTATION = gql`
+    mutation DELETE_USER_MUTATION($id: ID!){
+        deleteUser(id: $id)  {
+            id
+        }
+    }
+`;
+
 export const REQUEST_RESET_MUTATION = gql`
-    mutation REQUEST_RESET_MUTATION($email: String!){
-        requestReset(email: $email){
+    mutation REQUEST_RESET_MUTATION($email: String!, $reset: String!){
+        requestReset(email: $email, reset: $reset){
             message
         }
     }
 `;
 
-export const RESET_MUTATION = gql`
-    mutation RESET_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!){
+export const RESET_PASSWORD_MUTATION = gql`
+    mutation RESET_PASSWORD_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!){
         resetPassword(resetToken: $resetToken, password:$password, confirmPassword:$confirmPassword){
             id
             email
             name
+        }
+    }
+`;
+
+export const RESET_EMAIL_MUTATION = gql`
+    mutation RESET_EMAIL_MUTATION($resetToken: String!, $email: String!, $confirmEmail: String!){
+        resetEmail(resetToken:$resetToken, email: $email, confirmEmail: $confirmEmail){
+            id
         }
     }
 `;

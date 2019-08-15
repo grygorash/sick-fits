@@ -5,7 +5,7 @@ import Router from 'next/router';
 
 import Form from './styles/Form';
 import Error from './ErrorMessage';
-import { RESET_PASSWORD_MUTATION } from '../mutations';
+import { RESET_EMAIL_MUTATION } from '../mutations';
 import { CURRENT_USER_QUERY } from '../queries';
 
 class ResetPassword extends Component {
@@ -14,50 +14,50 @@ class ResetPassword extends Component {
 	};
 
 	state = {
-		password: '',
-		confirmPassword: ''
+		email: '',
+		confirmEmail: ''
 	};
 
 	handleInputChange = ({ target }) => {
 		this.setState({ [target.id]: target.value });
 	};
 
-	handleFormSubmit = async (e, resetPassword) => {
+	handleFormSubmit = async (e, resetEmail) => {
 		e.preventDefault();
-		await resetPassword().then(() => Router.push('/items'));
+		await resetEmail().then(() => Router.push('/account'));
 	};
 
 	render() {
 		const { handleInputChange, handleFormSubmit } = this;
-		const { password, confirmPassword } = this.state;
+		const { email, confirmEmail } = this.state;
 		const { resetToken } = this.props;
 
 		return (
-			<Mutation mutation={RESET_PASSWORD_MUTATION}
+			<Mutation mutation={RESET_EMAIL_MUTATION}
 			          variables={{ resetToken, ...this.state }}
 			          refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
-				{(resetPassword, { loading, error }) =>
-					<Form method="post" onSubmit={e => handleFormSubmit(e, resetPassword)} noValidate>
-						<h2>Reset Your Password</h2>
+				{(resetEmail, { loading, error }) =>
+					<Form method="post" onSubmit={e => handleFormSubmit(e, resetEmail)} noValidate>
+						<h2>Change Your Email</h2>
 						<Error error={error} />
 						<fieldset disabled={loading} aria-busy={loading}>
 							<label htmlFor="password">
-								Enter New Password
-								<input type="password"
-								       id="password"
-								       placeholder="Password"
-								       value={password}
+								Enter Current Email
+								<input type="email"
+								       id="email"
+								       placeholder="Current Email"
+								       value={email}
 								       onChange={handleInputChange} />
 							</label>
 							<label htmlFor="confirmPassword">
-								Confirm New Password
-								<input type="password"
-								       id="confirmPassword"
-								       placeholder="Confirm Password"
-								       value={confirmPassword}
+								Enter New Email
+								<input type="email"
+								       id="confirmEmail"
+								       placeholder="New Email"
+								       value={confirmEmail}
 								       onChange={handleInputChange} />
 							</label>
-							<button type="submit">Reset Password</button>
+							<button type="submit">Change Email</button>
 						</fieldset>
 					</Form>}
 			</Mutation>
