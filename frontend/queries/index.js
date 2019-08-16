@@ -171,6 +171,10 @@ export const SINGLE_ORDER_QUERY = gql`
                 price
                 image
                 quantity
+		            user{
+				            id
+				            name
+		            }
             }
         }
     }

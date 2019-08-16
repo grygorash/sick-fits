@@ -83,6 +83,15 @@ const Form = styled.form`
 	    height: 200px;
 	    object-fit: cover;
     }
+    .rate-field{
+    	margin-bottom: 1rem;
+    	label{
+	      margin-bottom: 0;
+    	}
+      svg{
+        cursor:pointer;
+      }
+    }
   }
   .message-success{
     padding: 10px;

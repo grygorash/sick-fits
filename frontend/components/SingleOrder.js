@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import Head from 'next/head';
+import Link from 'next/link';
 import { format } from 'date-fns';
 
 import { SINGLE_ORDER_QUERY } from '../queries';
@@ -18,26 +19,11 @@ const SingleOrder = ({ id }) =>
 					<Head>
 						<title>Sale! Order {data.order.id}</title>
 					</Head>
-					<p>
-						<span>OrderID: </span>
-						<span>{id}</span>
-					</p>
-					<p>
-						<span>Charge: </span>
-						<span>{data.order.charge}</span>
-					</p>
-					<p>
-						<span>Date: </span>
-						<span>{format(new Date(data.order.createdAt), 'MMMM d, yyyy HH:mm')}</span>
-					</p>
-					<p>
-						<span>Order Total: </span>
-						<span>{formatMoney(data.order.total)}</span>
-					</p>
-					<p>
-						<span>Item Count: </span>
-						<span>{data.order.items.length}</span>
-					</p>
+					<p>OrderID: <span>{id}</span></p>
+					<p>Charge: <span>{data.order.charge}</span></p>
+					<p>Date: <span>{format(new Date(data.order.createdAt), 'MMMM d, yyyy HH:mm')}</span></p>
+					<p> Order Total: <span>{formatMoney(data.order.total)}</span></p>
+					<p>Item Count: <span>{data.order.items.length}</span></p>
 					<div className="items">
 						{data.order.items.map(item =>
 							<div key={item.id} className="order-item">
@@ -48,6 +34,18 @@ const SingleOrder = ({ id }) =>
 									<p>Each: {formatMoney(item.price)}</p>
 									<p>SubTotal: {formatMoney(item.price * item.quantity)}</p>
 									{item.description && <p>Description: {item.description}</p>}
+									<p>Seller: <span>
+											<Link href={{
+												pathname: '/user',
+												query: { id: item.user.id }
+											}}><a>{item.user.name}</a>
+											</Link></span>
+									</p>
+									<p><Link href={{
+										pathname: '/feedback',
+										query: { id: item.user.id }
+									}}><a>Leave Feedback</a></Link>
+									</p>
 								</div>
 							</div>)}
 					</div>

@@ -10,6 +10,7 @@ const validateSignup = require('../validation/validateSignup');
 const validateRequestReset = require('../validation/validateRequestReset');
 const validateResetPassword = require('../validation/validateResetPassword');
 const validateResetEmail = require('../validation/validateResetEmail');
+const validateCreateFeedback = require('../validation/validateCreateFeedback');
 const { transport, makeANiceEmail } = require('../mail');
 const hasPermission = require('../utils');
 const stripe = require('../stripe');
@@ -274,6 +275,10 @@ const Mutations = {
 					description 
 					image 
 					largeImage
+					user {
+						id
+						name
+					}
 				} 
 			}}`
 		);
@@ -287,19 +292,16 @@ const Mutations = {
 		});
 		// convert the CartItems to OrderItems
 		const orderItems = user.cart.map(cartItem => {
-			const { id, title, description, image, largeImage, price } = cartItem.item;
-			const orderItem = {
-				id,
+			const { title, description, image, largeImage, price, user } = cartItem.item;
+			return {
 				title,
 				description,
 				image: { set: image },
 				largeImage: { set: largeImage },
 				price,
 				quantity: cartItem.quantity,
-				user: { connect: { id: userId } }
+				user: { connect: { id: user.id } }
 			};
-			delete orderItem.id;
-			return orderItem;
 		});
 		// create the SingleOrder
 		const order = await ctx.db.mutation.createOrder({
@@ -315,6 +317,30 @@ const Mutations = {
 		await ctx.db.mutation.deleteManyCartItems({ where: { id_in: cartItemsIds } });
 		// return the order to the client
 		return order;
+	},
+	async createFeedback(parent, args, ctx, info) {
+		validateCreateFeedback(args);
+		const feedback = await ctx.db.mutation.createFeedback({
+			data: {
+				rating: args.rating,
+				text: args.text,
+				user: { connect: { id: args.sellerId } }
+			}
+		});
+
+		const seller = await ctx.db.query.user({ where: { id: args.sellerId } }, `{ ratingSum }`);
+		const ratingSum = seller.ratingSum === 0 ? 1 : 2;
+
+		console.log('--->rating', seller.ratingSum);
+		console.log('--->args rating', args.rating);
+		console.log('--->ratingSum', ratingSum);
+		console.log('--->', (seller.ratingSum + args.rating) / ratingSum);
+
+		await ctx.db.mutation.updateUser({
+			where: { id: args.sellerId },
+			data: { ratingSum: (seller.ratingSum + args.rating) / ratingSum }
+		});
+		// console.log('--->feedback', feedback);
 	}
 };
 

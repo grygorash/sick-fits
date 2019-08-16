@@ -12,8 +12,8 @@ const OrderStyles = styled.div`
     grid-template-columns: 1fr 5fr;
     margin: 0;
     border-bottom: 1px solid ${props => props.theme.offWhite};
+    padding: 1rem;
     span {
-      padding: 1rem;
       &:first-child {
         font-weight: 900;
         text-align: right;
@@ -34,5 +34,13 @@ const OrderStyles = styled.div`
       object-fit: cover;
     }
   }
+  a, button{
+	background: ${props => props.theme.red};
+	color: #fff;
+	padding: 10px;
+	border: none;
+	font-size: 13px;
+	margin-right: 10px;
+		}
 `;
 export default OrderStyles;

@@ -18,6 +18,8 @@ type User {
     permissions: [Permission] @scalarList(strategy: RELATION)
     items: [Item!]!
     cart: [CartItem!]!
+    feedback: [Feedback!]!
+    ratingSum: Float @default(value: 0)
 }
 
 type Item{
@@ -57,4 +59,12 @@ type Order {
     charge: String!
     createdAt: DateTime! @createdAt
     updatedAt: DateTime @updatedAt
+}
+
+type Feedback {
+    id: ID! @id
+    rating: Int!
+    text: String!
+    user: User!
+    createdAt: DateTime! @createdAt
 }

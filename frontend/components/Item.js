@@ -37,7 +37,6 @@ const Item = ({ item }) =>
 		</User>
 	</ItemStyles>;
 
-
 Item.propTypes = {
 	item: PropTypes.shape({
 		id: PropTypes.string.isRequired,
