@@ -328,17 +328,15 @@ const Mutations = {
 			}
 		});
 
-		const seller = await ctx.db.query.user({ where: { id: args.sellerId } }, `{ ratingSum }`);
-		const ratingSum = seller.ratingSum === 0 ? 1 : 2;
-
-		console.log('--->rating', seller.ratingSum);
-		console.log('--->args rating', args.rating);
-		console.log('--->ratingSum', ratingSum);
-		console.log('--->', (seller.ratingSum + args.rating) / ratingSum);
+		const seller = await ctx.db.query.user({ where: { id: args.sellerId } }, `{ ratingSum feedback{ rating } }`);
+		const sumOfRatings = seller.feedback.reduce((acc, cur) => acc + cur.rating, 0);
+		// console.log('--->rating', seller.ratingSum);
+		// console.log('--->args rating', args.rating);
+		// console.log('--->ratingSum', ratingSum);
 
 		await ctx.db.mutation.updateUser({
 			where: { id: args.sellerId },
-			data: { ratingSum: (seller.ratingSum + args.rating) / ratingSum }
+			data: { ratingSum: sumOfRatings / seller.feedback.length }
 		});
 		// console.log('--->feedback', feedback);
 	}
