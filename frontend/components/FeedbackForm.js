@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Mutation, Query } from 'react-apollo';
-import Head from 'next/head';
+import { Mutation } from 'react-apollo';
 import { FaStar } from 'react-icons/fa';
 
 import Form from './styles/Form';
-import { SINGLE_ORDER_QUERY, SINGLE_USER_QUERY } from '../queries';
+import { SINGLE_ORDER_QUERY } from '../queries';
 import Error from './ErrorMessage';
 import { CREATE_FEEDBACK_MUTATION } from '../mutations';
 
