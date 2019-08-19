@@ -48,6 +48,7 @@ type OrderItem{
     largeImage: [String] @scalarList(strategy: RELATION)
     price: Int!
     quantity: Int! @default(value: 1)
+    feedbackLeft: Boolean @defaul(value: false)
     user: User
 }
 
@@ -66,5 +67,7 @@ type Feedback {
     rating: Int!
     text: String!
     user: User!
+    whoLeft: String!
+    whoLeftId: String!
     createdAt: DateTime! @createdAt
 }

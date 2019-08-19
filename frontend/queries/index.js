@@ -53,7 +53,7 @@ export const ALL_USERS_QUERY = gql`
             name
             email
             permissions
-		        logo
+            logo
             items{
                 id
             }
@@ -70,7 +70,16 @@ export const SINGLE_USER_QUERY = gql`
             id
             name
             logo
-		        items{
+            feedback{
+              id
+              rating
+              text
+              whoLeft
+              whoLeftId
+              createdAt
+            }
+            ratingSum
+            items{
                 id
                 title
                 price
@@ -78,7 +87,7 @@ export const SINGLE_USER_QUERY = gql`
                 image
                 largeImage
                 createdAt
-		        }
+            }
         }
     }
 `;
@@ -171,10 +180,11 @@ export const SINGLE_ORDER_QUERY = gql`
                 price
                 image
                 quantity
-		            user{
-				            id
-				            name
-		            }
+                feedbackLeft
+                user{
+                    id
+                    name
+                }
             }
         }
     }

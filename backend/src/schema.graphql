@@ -19,7 +19,7 @@ type Mutation{
     addToCart(id: ID!): CartItem
     removeFromCart(id: ID!): CartItem
     createOrder(token: String!): Order!
-    createFeedback(rating: Int!, text: String!, sellerId: ID!): Feedback
+    createFeedback(rating: Int!, text: String!, sellerId: ID!, orderItemId: ID!): Feedback
 }
 
 type Query{
@@ -42,4 +42,6 @@ type User{
     items:[Item!]!
     cart: [CartItem!]!
     orders: [Order!]!
+    feedback: [Feedback!]!
+    ratingSum: Float
 }

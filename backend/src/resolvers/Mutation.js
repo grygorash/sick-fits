@@ -320,25 +320,27 @@ const Mutations = {
 	},
 	async createFeedback(parent, args, ctx, info) {
 		validateCreateFeedback(args);
-		const feedback = await ctx.db.mutation.createFeedback({
+		const { userId } = ctx.request;
+		const whoLeft = await ctx.db.query.user({ where: { id: userId } }, `{ id name }`);
+		const seller = await ctx.db.query.user({ where: { id: args.sellerId } }, `{ feedback{ rating } }`);
+		const sumOfRatings = seller.feedback.reduce((acc, cur) => acc + cur.rating, 0);
+		const updatedUser = await ctx.db.mutation.updateUser({
+			where: { id: args.sellerId },
+			data: { ratingSum: (sumOfRatings + args.rating) / (seller.feedback.length + 1) }
+		});
+		await ctx.db.mutation.updateOrderItem({
+			where: { id: args.orderItemId },
+			data: { feedbackLeft: true }
+		});
+		return await ctx.db.mutation.createFeedback({
 			data: {
 				rating: args.rating,
 				text: args.text,
-				user: { connect: { id: args.sellerId } }
+				user: { connect: { id: args.sellerId } },
+				whoLeft: whoLeft.name,
+				whoLeftId: whoLeft.id
 			}
 		});
-
-		const seller = await ctx.db.query.user({ where: { id: args.sellerId } }, `{ ratingSum feedback{ rating } }`);
-		const sumOfRatings = seller.feedback.reduce((acc, cur) => acc + cur.rating, 0);
-		// console.log('--->rating', seller.ratingSum);
-		// console.log('--->args rating', args.rating);
-		// console.log('--->ratingSum', ratingSum);
-
-		await ctx.db.mutation.updateUser({
-			where: { id: args.sellerId },
-			data: { ratingSum: sumOfRatings / seller.feedback.length }
-		});
-		// console.log('--->feedback', feedback);
 	}
 };
 

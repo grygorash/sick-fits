@@ -9,6 +9,7 @@ import { SINGLE_ORDER_QUERY } from '../queries';
 import OrderStyles from './styles/OrderStyles';
 import formatMoney from '../lib/formatMoney';
 import ErrorPage from './ErrorPage';
+import FeedbackForm from './FeedbackForm';
 
 const SingleOrder = ({ id }) =>
 	<Query query={SINGLE_ORDER_QUERY}
@@ -41,11 +42,9 @@ const SingleOrder = ({ id }) =>
 											}}><a>{item.user.name}</a>
 											</Link></span>
 									</p>
-									<p><Link href={{
-										pathname: '/feedback',
-										query: { id: item.user.id }
-									}}><a>Leave Feedback</a></Link>
-									</p>
+									{item.feedbackLeft ?
+										<p>You have already left a Feedback</p> :
+										<FeedbackForm orderItemId={item.id} orderId={id} sellerId={item.user.id} />}
 								</div>
 							</div>)}
 					</div>

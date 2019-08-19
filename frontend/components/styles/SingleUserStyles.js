@@ -12,8 +12,8 @@ const SingleUserStyles = styled.div`
 			border-radius: 50%;
 		}
 	}
-	.user-items{
-	>a{
+	.user-items, .user-feedback{
+	>a, >div{
 			display: flex;
 			justify-content: space-around;
 			align-items: center;
@@ -23,6 +23,16 @@ const SingleUserStyles = styled.div`
 			&:hover{
 				border-color: ${props => props.theme.red};
 			}
+		}
+	}
+	button{
+		background: ${props => props.theme.red};
+		padding: 10px;
+		border: none;
+		font-size: 13px;
+		margin-right: 10px;
+		a{
+			color: #fff;
 		}
 	}
 	img{

@@ -172,8 +172,8 @@ export const CREATE_ORDER_MUTATION = gql`
 `;
 
 export const CREATE_FEEDBACK_MUTATION = gql`
-    mutation CREATE_FEEDBACK_MUTATION($rating: Int!, $text: String!, $sellerId: ID!){
-        createFeedback(rating: $rating, text: $text, sellerId: $sellerId){
+    mutation CREATE_FEEDBACK_MUTATION($rating: Int!, $text: String!, $sellerId: ID!, $orderItemId: ID!){
+        createFeedback(rating: $rating, text: $text, sellerId: $sellerId, orderItemId:$orderItemId){
             id
         }
     }
