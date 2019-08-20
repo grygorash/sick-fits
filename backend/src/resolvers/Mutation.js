@@ -130,8 +130,25 @@ const Mutations = {
 		});
 	},
 	async deleteUser(parent, args, ctx, info) {
-		const where = { id: args.id };
-		return await ctx.db.mutation.deleteUser({ where });
+		const { userId } = ctx.request;
+
+		const user = await ctx.db.query.user({ where: { id: userId } }, `{ id cart { id item { id } } items { id } }`);
+		const orders = await ctx.db.query.orders({ where: { user: { id: userId } } }, `{ id items { id } }`);
+		const feedbacks = await ctx.db.query.feedbacks({ where: { user: { id: userId } } });
+
+		const orderItemsIds = [].concat.apply([], orders.map(order => order.items.map(orderItem => orderItem.id)));
+		const ordersIds = orders.map(order => order.id);
+		const cartItemsIds = user.cart.map(cartItem => cartItem.id);
+		const itemsIds = user.items.map(item => item.id);
+		const feedbacksIds = feedbacks.map(feedback => feedback.id);
+
+		await ctx.db.mutation.deleteManyOrderItems({ where: { id_in: orderItemsIds } });
+		await ctx.db.mutation.deleteManyOrders({ where: { id_in: ordersIds } });
+		await ctx.db.mutation.deleteManyCartItems({ where: { id_in: cartItemsIds } });
+		await ctx.db.mutation.deleteManyItems({ where: { id_in: itemsIds } });
+		await ctx.db.mutation.deleteManyFeedbacks({ where: { id_in: feedbacksIds } });
+
+		return await ctx.db.mutation.deleteUser({ where: { id: userId } });
 	},
 	async requestReset(parent, { email, reset }, ctx, info) {
 		// check basic validation

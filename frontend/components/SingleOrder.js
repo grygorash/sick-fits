@@ -35,12 +35,16 @@ const SingleOrder = ({ id }) =>
 									<p>Each: {formatMoney(item.price)}</p>
 									<p>SubTotal: {formatMoney(item.price * item.quantity)}</p>
 									{item.description && <p>Description: {item.description}</p>}
-									<p>Seller: <span>
+									<p>Seller: {item.user ?
+										<span>
 											<Link href={{
 												pathname: '/user',
 												query: { id: item.user.id }
-											}}><a>{item.user.name}</a>
-											</Link></span>
+											}}>
+												<a>{item.user.name}</a>
+											</Link>
+										</span> :
+										<span>User has been deleted</span>}
 									</p>
 									{item.feedbackLeft ?
 										<p>You have already left a Feedback</p> :
