@@ -6,7 +6,7 @@ import Router from 'next/router';
 import Form from './styles/Form';
 import { UPDATE_USER_MUTATION } from '../mutations';
 import Error from './ErrorMessage';
-import { CURRENT_USER_QUERY } from '../queries';
+import { CURRENT_USER_ACCOUNT_QUERY } from '../queries';
 
 class UserUpdate extends Component {
 	static propTypes = {
@@ -51,7 +51,7 @@ class UserUpdate extends Component {
 		return (
 			<Mutation mutation={UPDATE_USER_MUTATION}
 			          variables={{ id: this.props.user.id, logo, name }}
-			          refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+			          refetchQueries={[{ query: CURRENT_USER_ACCOUNT_QUERY }]}>
 				{(updateUser, { error, loading }) =>
 					<Form noValidate
 					      onSubmit={e => handleFormSubmit(e, updateUser)}>

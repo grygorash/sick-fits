@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
 import { ADD_TO_CART_MUTATION } from '../mutations';
-import { CURRENT_USER_QUERY } from '../queries';
+import { CURRENT_USER_CART_QUERY } from '../queries';
 
 
 const AddToCart = ({ id }) =>
 	<Mutation mutation={ADD_TO_CART_MUTATION}
 	          variables={{ id }}
-	          refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+	          refetchQueries={[{ query: CURRENT_USER_CART_QUERY }]}>
 		{(addToCart, { loading }) =>
 			<button disabled={loading}
 			        onClick={addToCart}>

@@ -4,8 +4,7 @@ import { Query } from 'react-apollo';
 import Error from './ErrorMessage';
 import Table from './styles/Table';
 import UserPermissions from './UserPermissions';
-import { ALL_USERS_QUERY } from '../queries';
-import User from './User';
+import { ALL_USERS_QUERY, CURRENT_USER_PERMISSIONS_QUERY } from '../queries';
 import ErrorPage from './ErrorPage';
 
 const possiblePermissions = [
@@ -18,7 +17,7 @@ const possiblePermissions = [
 ];
 
 const Permissions = () =>
-	<User>
+	<Query query={CURRENT_USER_PERMISSIONS_QUERY}>
 		{({ data }) => {
 			const canUpdate = data.me.permissions.includes('PERMISSIONUPDATE');
 			return data.me.permissions.includes('ADMIN') ?
@@ -49,6 +48,6 @@ const Permissions = () =>
 				</Query> :
 				<ErrorPage status="500" text="You must be ADMIN to see this page" />;
 		}}
-	</User>;
+	</Query>;
 
 export default Permissions;

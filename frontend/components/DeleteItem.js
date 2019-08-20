@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'next/router';
 
 import { DELETE_ITEM_MUTATION } from '../mutations';
-import { CURRENT_USER_QUERY } from '../queries';
+import { CURRENT_USER_ITEMS_QUERY } from '../queries';
 
 const DeleteItem = ({ router, id }) =>
 	<Mutation
 		mutation={DELETE_ITEM_MUTATION}
 		variables={{ id }}
-		refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+		refetchQueries={[{ query: CURRENT_USER_ITEMS_QUERY }]}>
 		{(deleteItem) =>
 			<button onClick={async () => {
 				confirm('Are you sure want to delete this item?') &&

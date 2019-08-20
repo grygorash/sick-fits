@@ -1,16 +1,15 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import Link from 'next/link';
 import Head from 'next/head';
 import { withRouter } from 'next/router';
 
-import User from './User';
 import AccountStyles from './styles/AccountStyles';
 import { DELETE_USER_MUTATION } from '../mutations';
-import { CURRENT_USER_QUERY } from '../queries';
+import { CURRENT_USER_ACCOUNT_QUERY } from '../queries';
 
 const Account = ({ router }) =>
-	<User>
+	<Query query={CURRENT_USER_ACCOUNT_QUERY}>
 		{({ data: { me } }) =>
 			<AccountStyles>
 				<Head><title>Sale! Account</title></Head>
@@ -51,7 +50,7 @@ const Account = ({ router }) =>
 				<div className="user-delete">
 					<Mutation mutation={DELETE_USER_MUTATION}
 					          variables={{ id: me.id }}
-					          refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+					          refetchQueries={[{ query: CURRENT_USER_ACCOUNT_QUERY }]}>
 						{deleteUser =>
 							<button onClick={async () => {
 								confirm('Are you sure want to delete Account') &&
@@ -61,7 +60,7 @@ const Account = ({ router }) =>
 					</Mutation>
 				</div>
 			</AccountStyles>}
-	</User>;
+	</Query>;
 
 
 export default withRouter(Account);

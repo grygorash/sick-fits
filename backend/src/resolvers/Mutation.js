@@ -358,6 +358,9 @@ const Mutations = {
 				whoLeftId: whoLeft.id
 			}
 		});
+	},
+	async deleteFeedback(parent, args, ctx, info){
+		return await ctx.db.mutation.deleteFeedback({where: {id: args.id}})
 	}
 };
 

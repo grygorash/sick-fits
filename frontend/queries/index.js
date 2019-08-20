@@ -71,12 +71,12 @@ export const SINGLE_USER_QUERY = gql`
             name
             logo
             feedback{
-              id
-              rating
-              text
-              whoLeft
-              whoLeftId
-              createdAt
+                id
+                rating
+                text
+                whoLeft
+                whoLeftId
+                createdAt
             }
             ratingSum
             items{
@@ -92,14 +92,42 @@ export const SINGLE_USER_QUERY = gql`
     }
 `;
 
-export const CURRENT_USER_QUERY = gql`
-    query CURRENT_USER_QUERY{
+export const CURRENT_USER_ID_QUERY = gql`
+    query CURRENT_USER_ID_QUERY{
+        me{
+            id
+        }
+    }
+`;
+
+export const CURRENT_USER_ACCOUNT_QUERY = gql`
+    query CURRENT_USER_ID_QUERY{
         me{
             id
             email
             name
             logo
             permissions
+            items{
+                id
+            }
+        }
+    }
+`;
+
+export const CURRENT_USER_PERMISSIONS_QUERY = gql`
+    query CURRENT_USER_PERMISSIONS_QUERY{
+        me{
+            id
+            permissions
+        }
+    }
+`;
+
+export const CURRENT_USER_ITEMS_QUERY = gql`
+    query CURRENT_USER_ID_QUERY{
+        me{
+            id
             items{
                 id
                 title
@@ -109,6 +137,16 @@ export const CURRENT_USER_QUERY = gql`
                 image
                 largeImage
             }
+        }
+    }
+`;
+
+export const CURRENT_USER_CART_QUERY = gql`
+    query CURRENT_USER_CART_QUERY{
+        me{
+            id
+            name
+            email
             cart{
                 id
                 quantity

@@ -74,7 +74,8 @@ const Query = {
 
 		// return order
 		return order;
-	}
+	},
+	feedbacks: forwardTo('db')
 };
 
 module.exports = Query;

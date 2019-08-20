@@ -20,6 +20,7 @@ type Mutation{
     removeFromCart(id: ID!): CartItem
     createOrder(token: String!): Order!
     createFeedback(rating: Int!, text: String!, sellerId: ID!, orderItemId: ID!): Feedback
+    deleteFeedback(id: ID!): Feedback!
 }
 
 type Query{
@@ -31,6 +32,7 @@ type Query{
     users: [User]!
     orders(orderBy: OrderOrderByInput): [Order]!
     order(id: ID!): Order
+    feedbacks: [Feedback]
 }
 
 type User{

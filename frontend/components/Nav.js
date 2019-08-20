@@ -1,16 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 
 import NavStyles from './styles/NavStyles';
-import User from './User';
 import Signout from './Signout';
 import CartCount from './CartCount';
 import { TOGGLE_CART_MUTATION } from '../mutations';
+import { CURRENT_USER_CART_QUERY } from '../queries';
 
 const Nav = ({ router }) =>
-	<User>
+	<Query query={CURRENT_USER_CART_QUERY}>
 		{({ data: { me } }) => (
 			<NavStyles>
 				<Link href="/items"><a className={router.pathname === '/items' ? 'active' : ''}>Shop</a></Link>
@@ -33,6 +33,6 @@ const Nav = ({ router }) =>
 				</>)}
 			</NavStyles>
 		)}
-	</User>;
+	</Query>;
 
 export default withRouter(Nav);

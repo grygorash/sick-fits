@@ -1,4 +1,5 @@
 import React from 'react';
+import { Query } from 'react-apollo';
 import Link from 'next/link';
 import Head from 'next/head';
 import { format } from 'date-fns';
@@ -6,10 +7,10 @@ import { format } from 'date-fns';
 import OrderListStyles from './styles/OrderListStyles';
 import OrderItemStyles from './styles/OrderItemStyles';
 import formatMoney from '../lib/formatMoney';
-import User from './User';
+import { CURRENT_USER_ITEMS_QUERY } from '../queries';
 
 const AccountItems = () =>
-	<User>
+	<Query query={CURRENT_USER_ITEMS_QUERY}>
 		{({ data: { me } }) => {
 			return <>
 				<Head><title>Sale! My Items</title></Head>
@@ -40,6 +41,6 @@ const AccountItems = () =>
 				</OrderListStyles>
 			</>;
 		}}
-	</User>;
+	</Query>;
 
 export default AccountItems;

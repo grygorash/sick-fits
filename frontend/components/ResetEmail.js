@@ -6,7 +6,7 @@ import Router from 'next/router';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
 import { RESET_EMAIL_MUTATION } from '../mutations';
-import { CURRENT_USER_QUERY } from '../queries';
+import { CURRENT_USER_ACCOUNT_QUERY } from '../queries';
 
 class ResetPassword extends Component {
 	static propTypes = {
@@ -35,7 +35,7 @@ class ResetPassword extends Component {
 		return (
 			<Mutation mutation={RESET_EMAIL_MUTATION}
 			          variables={{ resetToken, ...this.state }}
-			          refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+			          refetchQueries={[{ query: CURRENT_USER_ACCOUNT_QUERY }]}>
 				{(resetEmail, { loading, error }) =>
 					<Form method="post" onSubmit={e => handleFormSubmit(e, resetEmail)} noValidate>
 						<h2>Change Your Email</h2>

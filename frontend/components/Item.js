@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Query } from 'react-apollo';
 import Link from 'next/link';
 
 import Title from './styles/Title';
@@ -8,7 +9,7 @@ import PriceTag from './styles/PriceTag';
 import formatMoney from '../lib/formatMoney';
 import DeleteItem from './DeleteItem';
 import AddToCart from './AddToCart';
-import User from './User';
+import { CURRENT_USER_ID_QUERY } from '../queries';
 
 const Item = ({ item }) =>
 	<ItemStyles>
@@ -21,7 +22,7 @@ const Item = ({ item }) =>
 			<PriceTag>{formatMoney(item.price)}</PriceTag>
 			<p>{item.description}</p>
 		</a></Link>
-		<User>
+		<Query query={CURRENT_USER_ID_QUERY}>
 			{({ data: { me } }) => me &&
 				<div className="buttonList">
 					{me.id === item.user.id &&
@@ -34,7 +35,7 @@ const Item = ({ item }) =>
 					{me.id !== item.user.id &&
 					<AddToCart id={item.id} />}
 				</div>}
-		</User>
+		</Query>
 	</ItemStyles>;
 
 Item.propTypes = {

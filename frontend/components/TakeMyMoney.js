@@ -1,13 +1,12 @@
 import React from 'react';
+import { Mutation, Query } from 'react-apollo';
 import StripeCheckout from 'react-stripe-checkout';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 
-import User from './User';
 import calcTotalPrice from '../lib/calcTotalPrice';
-import { Mutation } from 'react-apollo';
 import { CREATE_ORDER_MUTATION, TOGGLE_CART_MUTATION } from '../mutations';
-import { CURRENT_USER_QUERY, USER_ORDERS_QUERY } from '../queries';
+import { CURRENT_USER_CART_QUERY, USER_ORDERS_QUERY } from '../queries';
 
 const TakeMyMoney = props => {
 	const handleTotalItems = cart =>
@@ -30,10 +29,10 @@ const TakeMyMoney = props => {
 	};
 
 	return (
-		<User>
+		<Query query={CURRENT_USER_CART_QUERY}>
 			{({ data: { me } }) =>
 				<Mutation mutation={CREATE_ORDER_MUTATION}
-				          refetchQueries={[{ query: CURRENT_USER_QUERY }, { query: USER_ORDERS_QUERY }]}>
+				          refetchQueries={[{ query: CURRENT_USER_CART_QUERY }, { query: USER_ORDERS_QUERY }]}>
 					{createOrder => me &&
 						<Mutation mutation={TOGGLE_CART_MUTATION}>
 							{toggleCart =>
@@ -49,7 +48,7 @@ const TakeMyMoney = props => {
 								</StripeCheckout>}
 						</Mutation>}
 				</Mutation>}
-		</User>
+		</Query>
 	);
 };
 
