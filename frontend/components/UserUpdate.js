@@ -4,9 +4,9 @@ import { Mutation } from 'react-apollo';
 import Router from 'next/router';
 
 import Form from './styles/Form';
-import { UPDATE_USER_MUTATION } from '../mutations';
 import Error from './ErrorMessage';
 import { CURRENT_USER_ACCOUNT_QUERY } from '../queries';
+import { UPDATE_USER_MUTATION } from '../mutations';
 
 class UserUpdate extends Component {
 	static propTypes = {
