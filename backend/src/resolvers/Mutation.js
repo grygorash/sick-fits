@@ -16,7 +16,7 @@ const hasPermission = require('../utils');
 const stripe = require('../stripe');
 
 const Mutations = {
-	async createItem(parents, { title, description, price, image, largeImage }, ctx, info) {
+	async createItem(parents, { title, description, price, discountPrice, image, largeImage }, ctx, info) {
 		const { userId } = ctx.request;
 		// check basic validation
 		validateCreateItem(title, price, image);
@@ -32,12 +32,13 @@ const Mutations = {
 				title,
 				description,
 				price,
+				discountPrice,
 				image: { set: image },
 				largeImage: { set: largeImage }
 			}
 		}, info);
 	},
-	async updateItem(parent, { id, title, description, price, image, largeImage }, ctx, info) {
+	async updateItem(parent, { id, title, description, price, discountPrice, image, largeImage }, ctx, info) {
 		// check basic validation
 		validateUpdateItem({ title, price, image });
 		const where = { id };
@@ -46,6 +47,7 @@ const Mutations = {
 			title,
 			description,
 			price,
+			discountPrice,
 			image: { set: image },
 			largeImage: { set: largeImage }
 		};
@@ -359,8 +361,8 @@ const Mutations = {
 			}
 		});
 	},
-	async deleteFeedback(parent, args, ctx, info){
-		return await ctx.db.mutation.deleteFeedback({where: {id: args.id}})
+	async deleteFeedback(parent, args, ctx, info) {
+		return await ctx.db.mutation.deleteFeedback({ where: { id: args.id } });
 	}
 };
 

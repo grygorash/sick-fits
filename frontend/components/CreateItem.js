@@ -14,7 +14,8 @@ class CreateItem extends Component {
 			description: '',
 			image: [],
 			largeImage: [],
-			price: ''
+			price: '',
+			discountPrice: ''
 		}
 	};
 
@@ -77,7 +78,11 @@ class CreateItem extends Component {
 
 		return (
 			<Mutation mutation={CREATE_ITEM_MUTATION}
-			          variables={{ ...item, price: item.price === '' ? 0 : item.price }}>
+			          variables={{
+				          ...item,
+				          price: item.price === '' ? 0 : item.price,
+				          discountPrice: item.discountPrice === '' ? null : item.discountPrice
+			          }}>
 				{(createItem, { loading, error }) => (
 					<Form noValidate onSubmit={e => handleFormSubmit(e, createItem)}>
 						<Head><title>Sale! Sell</title></Head>
@@ -123,6 +128,17 @@ class CreateItem extends Component {
 									id="price"
 									value={item.price}
 									placeholder="Price"
+									onChange={handleInputChange}
+									required
+								/>
+							</label>
+							<label htmlFor="price">
+								Price with discount
+								<input
+									type="number"
+									id="discountPrice"
+									value={item.discountPrice}
+									placeholder="Price with Discount"
 									onChange={handleInputChange}
 									required
 								/>

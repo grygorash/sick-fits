@@ -29,6 +29,7 @@ type Item{
     image: [String] @scalarList(strategy: RELATION)
     largeImage: [String] @scalarList(strategy: RELATION)
     price: Int!
+    discountPrice: Int
     createdAt: DateTime! @createdAt
     user: User!
 }

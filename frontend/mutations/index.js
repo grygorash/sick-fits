@@ -86,12 +86,14 @@ export const CREATE_ITEM_MUTATION = gql`
         $title: String!
         $description: String!
         $price: Int!
+        $discountPrice: Int
         $image: [String!]!
         $largeImage: [String!]!){
         createItem(
             title: $title
             description: $description
             price: $price
+            discountPrice: $discountPrice
             image: $image
             largeImage: $largeImage
         ){
@@ -107,7 +109,8 @@ export const UPDATE_ITEM_MUTATION = gql`
         $description: String
         $image: [String!]!
         $largeImage: [String!]!
-        $price: Int){
+        $price: Int
+        $discountPrice: Int){
         updateItem(
             id: $id
             title: $title
@@ -115,11 +118,13 @@ export const UPDATE_ITEM_MUTATION = gql`
             image: $image
             largeImage: $largeImage
             price: $price
+            discountPrice: $discountPrice
         ){
             id
             title
             description
             price
+            discountPrice
             image
             largeImage
         }

@@ -14,6 +14,7 @@ const Nav = ({ router }) =>
 		{({ data: { me } }) => (
 			<NavStyles>
 				<Link href="/items"><a className={router.pathname === '/items' ? 'active' : ''}>Shop</a></Link>
+				<Link href="/sale"><a className={router.pathname === '/sale' ? 'active' : ''}>Sale</a></Link>
 				{me && (<>
 					<Link href="/sell"><a className={router.pathname === '/sell' ? 'active' : ''}>Sell</a></Link>
 					<Link href="/orders"><a className={router.pathname === '/orders' ? 'active' : ''}>Orders</a></Link>

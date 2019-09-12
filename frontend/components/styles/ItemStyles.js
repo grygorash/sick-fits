@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Item = styled.div`
+const ItemStyles = styled.div`
   background: white;
   border: 1px solid ${props => props.theme.offWhite};
   box-shadow: ${props => props.theme.bs};
@@ -40,6 +40,15 @@ const Item = styled.div`
       padding: 1rem;
     }
   }
+  .crossed{
+  	span:first-child{
+  		text-decoration: line-through;
+ 		}
+    span:last-child{
+      top: 40px;
+      font-size: 4rem;
+    }
+  }
 `;
 
-export default Item;
+export default ItemStyles;

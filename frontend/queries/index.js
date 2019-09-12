@@ -7,6 +7,7 @@ export const ALL_ITEMS_QUERY = gql`
             id
             title
             price
+            discountPrice
             description
             image
             largeImage
@@ -27,6 +28,7 @@ export const SINGLE_ITEM_QUERY = gql`
             image
             largeImage
             price
+            discountPrice
             createdAt
             user{
                 id

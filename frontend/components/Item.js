@@ -19,7 +19,10 @@ const Item = ({ item }) =>
 		}}><a>
 			{<img src={item.image[0]} alt={item.title} />}
 			<Title><p>{item.title}</p></Title>
-			<PriceTag>{formatMoney(item.price)}</PriceTag>
+			<div className={item.discountPrice !== null ? 'crossed' : ''}>
+				<PriceTag>{formatMoney(item.price)}</PriceTag>
+				{item.discountPrice !== null && <PriceTag>{formatMoney(item.discountPrice)}</PriceTag>}
+			</div>
 			<p>{item.description}</p>
 		</a></Link>
 		<Query query={CURRENT_USER_ID_QUERY}>

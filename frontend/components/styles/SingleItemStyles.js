@@ -27,6 +27,15 @@ const SingleItemStyles = styled.div`
 			span{
 				color: ${props => props.theme.red};
 			}
+			&.crossed{
+				span:first-child{
+					text-decoration: line-through;
+					margin-right: 10px;			
+				}
+				span:last-child{
+					font-size: 18px!important;
+				}
+			}
 		}
 		a, button{
 			background: ${props => props.theme.red};
